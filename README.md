@@ -49,7 +49,7 @@ $type = $node->getType();
 $path = $node->getPath();
 ```
 
-Comprehensive API documentation is available [here](https://coveralls.io/github/baacode/json-browser).
+Comprehensive API documentation is available [here](https://baacode.github.io/json-browser/).
 
 Installation
 ------------
