@@ -123,7 +123,7 @@ class JsonBrowser
      * Get the JSON source for the current node
      *
      * @param int $options Bitwise options for json_encode()
-     * @return string
+     * @return string Encoded JSON string
      */
     public function getJSON(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
     {
