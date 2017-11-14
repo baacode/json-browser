@@ -10,7 +10,7 @@ matrix:
     include:
         - php: 7.0
         - php: 7.1
-          end: WITH_COVERAGE=true
+          env: WITH_COVERAGE=true
         - php: nightly
         - php: hhvm
 before_script:
