@@ -18,5 +18,7 @@ class PathTest extends \PHPUnit\Framework\TestCase
 
         $childThree = $root->getNodeAt('#/child~0~1One/child%25Two/0');
         $this->assertEquals('valueThree', $childThree->getValue());
+
+        $this->assertEquals('valueFour', $root->getValueAt('#/child~0~1One/child%25Two/1'));
     }
 }

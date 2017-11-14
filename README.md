@@ -30,6 +30,9 @@ $child = $browser->getSibling('siblingName');
 // get arbitrary node by path
 $node = $browser->getNodeAt('#/childName/grandchildName/4');
 
+// get arbitrary node value by path
+$value = $browser->getValueAt('#/childName/grandchildName/4');
+
 // get root node
 $root = $node->getRoot();
 
