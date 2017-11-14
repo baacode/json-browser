@@ -41,6 +41,9 @@ $value = $node->getValue();
 
 // get node type
 $type = $node->getType();
+
+// get node path
+$path = $node->getPath();
 ```
 
 Comprehensive API documentation is available [here](https://coveralls.io/github/baacode/json-browser).
