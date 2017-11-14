@@ -31,11 +31,23 @@ class JsonBrowser
 
     /** NULL type */
     const TYPE_NULL = 1;
+
+    /** Boolean type */
     const TYPE_BOOLEAN = 2;
+
+    /** String type */
     const TYPE_STRING = 4;
+
+    /** Number type */
     const TYPE_NUMBER = 8;
+
+    /** Integer type (subset of TYPE_NUMBER) */
     const TYPE_INTEGER = 16;
+
+    /** Array type */
     const TYPE_ARRAY = 32;
+
+    /** Object type */
     const TYPE_OBJECT = 64;
 
     /** Configuration options */
