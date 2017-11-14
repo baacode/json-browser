@@ -1,0 +1,23 @@
+language: php
+sudo: false
+cache:
+    directories:
+        - $HOME/.composer/cache
+matrix:
+    fast_finish: true
+    allow_failures:
+        - php: nightly
+    include:
+        - php: 7.0
+        - php: 7.1
+          end: WITH_COVERAGE=true
+        - php: nightly
+        - php: hhvm
+before_script:
+    - composer selfupdate
+    - mkdir -p build/logs
+script:
+    - travis_retry composer install --no-interaction
+    - composer style-check
+    - if [[ "$WITH_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml --coverage-text; else vendor/bin/phpunit -c phpunit.xml; fi
+    - if [[ "$WITH_COVERAGE" == "true" ]]; then vendor/bin/coveralls -v; fi;
