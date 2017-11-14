@@ -1,0 +1,41 @@
+{
+    "name": "baacode/json-browser",
+    "description": "Helper classes for working with JSON data",
+    "keywords": ["json", "browser", "helper"],
+    "homepage": "https://github.com/baacode/json-browser",
+    "type": "library",
+    "require": {
+        "php": "^7.0.0",
+        "seld/jsonlint": "^1.0",
+        "roave/security-advisories": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "squizlabs/php_codesniffer": "^3.0",
+        "sami/sami": "^4.0"
+    },
+    "license": "ISC",
+    "authors": [{
+        "name": "Steve Gilberd",
+        "email": "steve@erayd.net"
+    }],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "JsonBrowser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JsonBrowser\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "style-check": "phpcs --standard=PSR2 src && phpcs --standard=PSR2 tests",
+        "style-fix": "phpcbf --standard=PSR2 src && phpcbf --standard=PSR2 tests",
+        "coverage": "phpunit --coverage-clover=coverage.xml --coverage-text",
+        "build-doc": "sami.php update sami.php",
+        "clean": "rm -rf docs vendor composer.lock"
+    }
+}
