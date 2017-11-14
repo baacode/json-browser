@@ -14,7 +14,36 @@ use JsonBrowser\JsonBrowser;
 
 // returns a new JsonBrowser, or throws an exception if the JSON syntax is invalid
 $browser = new JsonBrowser($json);
+
+// check for child node
+$childExists = $browser->childExists('childName');
+
+// get child node
+$child = $browser->getChild('childName');
+
+// check for sibling node
+$siblingExists = $child->siblingExists('siblingName');
+
+// get sibling node
+$child = $browser->getSibling('siblingName');
+
+// get arbitrary node by path
+$node = $browser->getNodeAt('#/childName/grandchildName/4');
+
+// get root node
+$root = $node->getRoot();
+
+// get parent node
+$parent = $node->getParent();
+
+// get node value
+$value = $node->getValue();
+
+// get node type
+$type = $node->getType();
 ```
+
+Comprehensive API documentation is available [here](https://coveralls.io/github/baacode/json-browser).
 
 Installation
 ------------
