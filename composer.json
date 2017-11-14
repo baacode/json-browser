@@ -6,6 +6,7 @@
     "type": "library",
     "require": {
         "php": "^7.0.0",
+        "ext-json": "*",
         "seld/jsonlint": "^1.0",
         "roave/security-advisories": "dev-master"
     },
