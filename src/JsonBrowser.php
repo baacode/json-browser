@@ -7,6 +7,8 @@ use Seld\JsonLint\JsonParser;
 /**
  * Helper class for working with JSON-encoded data
  *
+ * @since 1.0.0
+ *
  * @package baacode/json-browser
  * @copyright (c) 2017 Erayd LTD
  * @author Steve Gilberd <steve@erayd.net>
@@ -68,6 +70,8 @@ class JsonBrowser
     /**
      * Create a new instance
      *
+     * @since 1.0.0
+     *
      * @param string $json JSON-encoded data
      * @param int $options Configuration options (bitmask)
      */
@@ -102,6 +106,8 @@ class JsonBrowser
     /**
      * Get the node path
      *
+     * @since 1.0.0
+     *
      * @return string The node path as a JSON pointer
      */
     public function getPath() : string
@@ -111,6 +117,8 @@ class JsonBrowser
 
     /**
      * Get the document value
+     *
+     * @since 1.0.0
      *
      * @return mixed
      */
@@ -122,6 +130,8 @@ class JsonBrowser
     /**
      * Get the JSON source for the current node
      *
+     * @since 1.2.0
+     *
      * @param int $options Bitwise options for json_encode()
      * @return string Encoded JSON string
      */
@@ -132,6 +142,8 @@ class JsonBrowser
 
     /**
      * Get the document value type
+     *
+     * @since 1.0.0
      *
      * @return int
      */
@@ -171,6 +183,8 @@ class JsonBrowser
     /**
      * Get root node
      *
+     * @since 1.0.0
+     *
      * @return self Root node
      */
     public function getRoot() : self
@@ -181,6 +195,8 @@ class JsonBrowser
     /**
      * Get parent node
      *
+     * @since 1.0.0
+     *
      * @return self|null Parent node
      */
     public function getParent()
@@ -190,6 +206,8 @@ class JsonBrowser
 
     /**
      * Check whether a child element exists
+     *
+     * @since 1.0.0
      *
      * @param mixed $key Index key
      * @return bool Whether the given child exists
@@ -208,6 +226,8 @@ class JsonBrowser
 
     /**
      * Get a child node
+     *
+     * @since 1.0.0
      *
      * @param mixed $key Index key
      * @return self Child node
@@ -238,6 +258,8 @@ class JsonBrowser
     /**
      * Check whether a sibling exists
      *
+     * @since 1.0.0
+     *
      * @param mixed $key Index key
      * @return bool Whether the sibling exists
      */
@@ -253,6 +275,8 @@ class JsonBrowser
 
     /**
      * Get a sibling node
+     *
+     * @since 1.0.0
      *
      * @param mixed $key Index key
      * @return self
@@ -270,6 +294,8 @@ class JsonBrowser
 
     /**
      * Get the node at a given path
+     *
+     * @since 1.0.0
      *
      * @param string $path JSON pointer to the requested node
      * @return self
@@ -290,6 +316,8 @@ class JsonBrowser
 
     /**
      * Get the value at a given path
+     *
+     * @since 1.1.0
      *
      * @param string $path JSON pointer to the requested node
      * @return mixed Value at the given path

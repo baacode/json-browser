@@ -5,6 +5,8 @@ namespace JsonBrowser;
 /**
  * Custom exception class
  *
+ * @since 1.0.0
+ *
  * @package baacode/json-browser
  * @copyright (c) 2017 Erayd LTD
  * @author Steve Gilberd <steve@erayd.net>
@@ -14,6 +16,8 @@ class Exception extends \Exception
 {
     /**
      * Create a new instance
+     *
+     * @since 1.0.0
      *
      * @param int $code Error code
      * @param string $message Error message
@@ -39,6 +43,8 @@ class Exception extends \Exception
 
     /**
      * Wrap some code and catch errors with a custom exception
+     *
+     * @since 1.0.0
      *
      * @param callable $target Function to wrap and execute
      * @param int $code Error code
