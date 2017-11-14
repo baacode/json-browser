@@ -12,10 +12,6 @@ matrix:
         - php: 7.1
           env: WITH_COVERAGE=true
         - php: nightly
-        - php: hhvm
-before_install:
-    - echo "hhvm.php7.all=1" > hhvm.php.ini
-    - phpenv config-add hhvm.php.ini
 before_script:
     - composer selfupdate
     - mkdir -p build/logs
