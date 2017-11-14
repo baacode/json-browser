@@ -276,4 +276,15 @@ class JsonBrowser
 
         return $node;
     }
+
+    /**
+     * Get the value at a given path
+     *
+     * @param string $path JSON pointer to the requested node
+     * @return mixed Value at the given path
+     */
+    public function getValueAt(string $path)
+    {
+        return $this->getNodeAt($path)->getValue();
+    }
 }

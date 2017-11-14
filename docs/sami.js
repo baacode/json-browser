@@ -36,6 +36,7 @@ window.projectVersion = 'master';
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_siblingExists", "name": "JsonBrowser\\JsonBrowser::siblingExists", "doc": "&quot;Check whether a sibling exists&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getSibling", "name": "JsonBrowser\\JsonBrowser::getSibling", "doc": "&quot;Get a sibling node&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getNodeAt", "name": "JsonBrowser\\JsonBrowser::getNodeAt", "doc": "&quot;Get the node at a given path&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getValueAt", "name": "JsonBrowser\\JsonBrowser::getValueAt", "doc": "&quot;Get the value at a given path&quot;"},
             
             
                                         // Fix trailing commas in the index
