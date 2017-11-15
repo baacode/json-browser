@@ -47,6 +47,9 @@ $type = $node->getType();
 
 // get node path
 $path = $node->getPath();
+
+// get JSON source for node
+$json = $node->getJSON();
 ```
 
 Comprehensive API documentation is available [here](https://baacode.github.io/json-browser/).
