@@ -87,7 +87,8 @@
     </div>
 
     <p>    class
-    <strong>JsonBrowser</strong>
+    <strong>JsonBrowser</strong>        implements
+        <a target="_blank" href="http://php.net/IteratorAggregate">IteratorAggregate</a>
 </p>
 
         
@@ -319,6 +320,16 @@
                     <a href="#method_getValueAt">getValueAt</a>(string $path)
         
                                             <p>Get the value at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="JsonBrowser\Traversable">Traversable</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIterator">getIterator</a>()
+        
+                                            <p>Get an iterator handle</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -784,6 +795,36 @@
         <tr>
             <td>mixed</td>
             <td>Value at the given path</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIterator">
+        <div class="location">at         line 337</div>
+        <code>                    <abbr title="JsonBrowser\Traversable">Traversable</abbr>
+    <strong>getIterator</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get an iterator handle</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="JsonBrowser\Traversable">Traversable</abbr></td>
+            <td>Iterator instance</td>
         </tr>
     </table>
 

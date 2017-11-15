@@ -1,5 +1,5 @@
 
-window.projectVersion = 'v1.2.0';
+window.projectVersion = 'master';
 
 (function(root) {
 
@@ -24,6 +24,14 @@ window.projectVersion = 'v1.2.0';
                                                         {"type": "Method", "fromName": "JsonBrowser\\Exception", "fromLink": "JsonBrowser/Exception.html", "link": "JsonBrowser/Exception.html#method___construct", "name": "JsonBrowser\\Exception::__construct", "doc": "&quot;Create a new instance&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\Exception", "fromLink": "JsonBrowser/Exception.html", "link": "JsonBrowser/Exception.html#method_wrap", "name": "JsonBrowser\\Exception::wrap", "doc": "&quot;Wrap some code and catch errors with a custom exception&quot;"},
             
+            {"type": "Class", "fromName": "JsonBrowser", "fromLink": "JsonBrowser.html", "link": "JsonBrowser/Iterator.html", "name": "JsonBrowser\\Iterator", "doc": "&quot;Iterate through child nodes&quot;"},
+                                                        {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method___construct", "name": "JsonBrowser\\Iterator::__construct", "doc": "&quot;Create a new instance&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method_current", "name": "JsonBrowser\\Iterator::current", "doc": "&quot;Get a browser object for the current child&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method_key", "name": "JsonBrowser\\Iterator::key", "doc": "&quot;Get the current child index&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method_next", "name": "JsonBrowser\\Iterator::next", "doc": "&quot;Advance the internal pointer to the next child&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method_rewind", "name": "JsonBrowser\\Iterator::rewind", "doc": "&quot;Reset the internal pointer to the first child&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\Iterator", "fromLink": "JsonBrowser/Iterator.html", "link": "JsonBrowser/Iterator.html#method_valid", "name": "JsonBrowser\\Iterator::valid", "doc": "&quot;Test whether there are more children to iterate over&quot;"},
+            
             {"type": "Class", "fromName": "JsonBrowser", "fromLink": "JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html", "name": "JsonBrowser\\JsonBrowser", "doc": "&quot;Helper class for working with JSON-encoded data&quot;"},
                                                         {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method___construct", "name": "JsonBrowser\\JsonBrowser::__construct", "doc": "&quot;Create a new instance&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getPath", "name": "JsonBrowser\\JsonBrowser::getPath", "doc": "&quot;Get the node path&quot;"},
@@ -38,6 +46,7 @@ window.projectVersion = 'v1.2.0';
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getSibling", "name": "JsonBrowser\\JsonBrowser::getSibling", "doc": "&quot;Get a sibling node&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getNodeAt", "name": "JsonBrowser\\JsonBrowser::getNodeAt", "doc": "&quot;Get the node at a given path&quot;"},
                     {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getValueAt", "name": "JsonBrowser\\JsonBrowser::getValueAt", "doc": "&quot;Get the value at a given path&quot;"},
+                    {"type": "Method", "fromName": "JsonBrowser\\JsonBrowser", "fromLink": "JsonBrowser/JsonBrowser.html", "link": "JsonBrowser/JsonBrowser.html#method_getIterator", "name": "JsonBrowser\\JsonBrowser::getIterator", "doc": "&quot;Get an iterator handle&quot;"},
             
             
                                         // Fix trailing commas in the index
