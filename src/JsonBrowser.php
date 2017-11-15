@@ -332,9 +332,9 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.3.0
      *
-     * @return Traversable Iterator instance
+     * @return Iterator Iterator instance
      */
-    public function getIterator()
+    public function getIterator() : Iterator
     {
         return new Iterator($this);
     }
