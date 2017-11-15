@@ -21,6 +21,12 @@ $childExists = $browser->childExists('childName');
 // get child node
 $child = $browser->getChild('childName');
 
+// iterate through child nodes
+foreach ($browser as $childName => $childNode) {
+    // $childName is the index key of the child
+    // $childNode is another JsonBrowser object (equivalent to $browser->getChild($childName))
+}
+
 // check for sibling node
 $siblingExists = $child->siblingExists('siblingName');
 
