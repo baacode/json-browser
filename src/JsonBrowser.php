@@ -14,7 +14,7 @@ use Seld\JsonLint\JsonParser;
  * @author Steve Gilberd <steve@erayd.net>
  * @license ISC
  */
-class JsonBrowser
+class JsonBrowser implements \IteratorAggregate
 {
     /** Throw exceptions instead of using NULL for nonexistent children & siblings */
     const OPT_NONEXISTENT_EXCEPTIONS = 1;
@@ -325,5 +325,17 @@ class JsonBrowser
     public function getValueAt(string $path)
     {
         return $this->getNodeAt($path)->getValue();
+    }
+
+    /**
+     * Get an iterator handle
+     *
+     * @since 1.3.0
+     *
+     * @return Traversable Iterator instance
+     */
+    public function getIterator()
+    {
+        return new Iterator($this);
     }
 }
