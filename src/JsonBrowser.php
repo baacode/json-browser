@@ -67,6 +67,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Node path */
     private $path = [];
 
+    /** Node key */
+    private $key = null;
+
     /**
      * Create a new instance
      *
@@ -281,6 +284,7 @@ class JsonBrowser implements \IteratorAggregate
 
         $child->parent = $this;
         $child->path[] = strtr($key, ['~' => '~0', '/' => '~1', '%' => '%25']);
+        $child->key = $key;
 
         return $child;
     }
@@ -320,6 +324,18 @@ class JsonBrowser implements \IteratorAggregate
         }
 
         return $this->parent->getChild($key);
+    }
+
+    /**
+     * Get the node index key (i.e. the child aname within the parent node)
+     *
+     * @since 1.3.0
+     *
+     * @return mixed Index key within parent node, or null if this is the root
+     */
+    public function getKey()
+    {
+        return $this->key;
     }
 
     /**

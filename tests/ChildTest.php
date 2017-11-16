@@ -38,6 +38,9 @@ class ChildTest extends \PHPUnit\Framework\TestCase
         $childThree = $childTwo->getChild('childThree');
         $childFour = $root->getChild('childFour');
         $childFive = $childFour->getChild('childFive');
+        $this->assertEquals('childTwo', $childTwo->getKey());
+        $this->assertEquals('childSix', $root->getChild('childSix')->getKey());
+        $this->assertNull($root->getKey());
 
         $this->assertEquals('valueOne', $childOne->getValue());
         $this->assertInstanceOf(\StdClass::class, $childTwo->getValue());
