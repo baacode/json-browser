@@ -184,7 +184,7 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Get the node index key (i.e. the child aname within the parent node)
+     * Get the node index key (i.e. the child name within the parent node)
      *
      * @since 1.3.0
      *
