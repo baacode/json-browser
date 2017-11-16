@@ -51,6 +51,12 @@ $value = $node->getValue();
 // get node type
 $type = $node->getType();
 
+// test whether the node is at least one of the given types
+$isType = $node->isType(JsonBrowser::TYPE_STRING | JsonBrowser::TYPE_NUMBER);
+
+// test whether the node is *not* any of the given types
+$isNotType = $node->isNotType(JsonBrowser::TYPE_NULL | JsonBrowser::TYPE_INTEGER);
+
 // get node path
 $path = $node->getPath();
 
