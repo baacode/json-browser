@@ -38,6 +38,6 @@
         "style-fix": "phpcbf --standard=PSR2 src && phpcbf --standard=PSR2 tests",
         "coverage": "phpunit --coverage-clover=coverage.xml --coverage-text",
         "build-doc": "sami.php update sami.php",
-        "clean": "rm -rf docs vendor composer.lock"
+        "clean": "rm -rf vendor composer.lock"
     }
 }
