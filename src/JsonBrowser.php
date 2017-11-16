@@ -107,137 +107,6 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Get the node path
-     *
-     * @since 1.0.0
-     *
-     * @return string The node path as a JSON pointer
-     */
-    public function getPath() : string
-    {
-        return '#/' . implode('/', $this->path);
-    }
-
-    /**
-     * Get the document value
-     *
-     * @since 1.0.0
-     *
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->document;
-    }
-
-    /**
-     * Get the JSON source for the current node
-     *
-     * @since 1.2.0
-     *
-     * @param int $options Bitwise options for json_encode()
-     * @return string Encoded JSON string
-     */
-    public function getJSON(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
-    {
-        return json_encode($this->document, $options);
-    }
-
-    /**
-     * Get the document value type
-     *
-     * @since 1.0.0
-     *
-     * @return int
-     */
-    public function getType() : int
-    {
-        if (is_null($this->document)) {
-            return self::TYPE_NULL;
-        }
-
-        if (is_bool($this->document)) {
-            return self::TYPE_BOOLEAN;
-        }
-
-        if (is_string($this->document)) {
-            return self::TYPE_STRING;
-        }
-
-        if (is_numeric($this->document)) {
-            $type = self::TYPE_NUMBER;
-            if (is_int($this->document) || $this->document == floor($this->document)) {
-                $type |= self::TYPE_INTEGER;
-            }
-            return $type;
-        }
-
-        if (is_array($this->document)) {
-            return self::TYPE_ARRAY;
-        }
-
-        if (is_object($this->document)) {
-            return self::TYPE_OBJECT;
-        }
-
-        throw new Exception(self::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($this->document)); // @codeCoverageIgnore
-    }
-
-    /**
-     * Test whether the document value is of a given type
-     *
-     * @since 1.3.0
-     *
-     * @param int $types Types to test for
-     * @param int $all Whether to require all types, or just one
-     * @return bool Whether the type matches
-     */
-    public function isType(int $types, bool $all = false)
-    {
-        if ($all) {
-            return ($this->getType() & $types) == $types;
-        }
-        return (bool)($this->getType() & $types);
-    }
-
-    /**
-     * Test whether the document value is *not* of a given type
-     *
-     * @since 1.3.0
-     *
-     * @param int $types Types to test for
-     * @return bool Whether the type does not match
-     */
-    public function isNotType(int $types) : bool
-    {
-        return ($this->getType() & $types) == 0;
-    }
-
-    /**
-     * Get root node
-     *
-     * @since 1.0.0
-     *
-     * @return self Root node
-     */
-    public function getRoot() : self
-    {
-        return $this->root;
-    }
-
-    /**
-     * Get parent node
-     *
-     * @since 1.0.0
-     *
-     * @return self|null Parent node
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
      * Check whether a child element exists
      *
      * @since 1.0.0
@@ -290,40 +159,28 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Check whether a sibling exists
+     * Get an iterator handle
      *
-     * @since 1.0.0
+     * @since 1.3.0
      *
-     * @param mixed $key Index key
-     * @return bool Whether the sibling exists
+     * @return Iterator Iterator instance
      */
-    public function siblingExists($key) : bool
+    public function getIterator() : Iterator
     {
-        // root nodes have no siblings
-        if (is_null($this->parent)) {
-            return false;
-        }
-
-        return $this->parent->childExists($key);
+        return new Iterator($this);
     }
 
     /**
-     * Get a sibling node
+     * Get the JSON source for the current node
      *
-     * @since 1.0.0
+     * @since 1.2.0
      *
-     * @param mixed $key Index key
-     * @return self
+     * @param int $options Bitwise options for json_encode()
+     * @return string Encoded JSON string
      */
-    public function getSibling($key) : self
+    public function getJSON(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
     {
-        if (!$this->siblingExists($key)) {
-            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
-                throw new Exception(self::ERR_UNKNOWN_SIBLING, 'Unknown sibling: %s', $key);
-            }
-        }
-
-        return $this->parent->getChild($key);
+        return json_encode($this->document, $options);
     }
 
     /**
@@ -361,6 +218,113 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Get parent node
+     *
+     * @since 1.0.0
+     *
+     * @return self|null Parent node
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Get the node path
+     *
+     * @since 1.0.0
+     *
+     * @return string The node path as a JSON pointer
+     */
+    public function getPath() : string
+    {
+        return '#/' . implode('/', $this->path);
+    }
+
+    /**
+     * Get root node
+     *
+     * @since 1.0.0
+     *
+     * @return self Root node
+     */
+    public function getRoot() : self
+    {
+        return $this->root;
+    }
+
+    /**
+     * Get a sibling node
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $key Index key
+     * @return self
+     */
+    public function getSibling($key) : self
+    {
+        if (!$this->siblingExists($key)) {
+            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
+                throw new Exception(self::ERR_UNKNOWN_SIBLING, 'Unknown sibling: %s', $key);
+            }
+        }
+
+        return $this->parent->getChild($key);
+    }
+
+    /**
+     * Get the document value type
+     *
+     * @since 1.0.0
+     *
+     * @return int
+     */
+    public function getType() : int
+    {
+        if (is_null($this->document)) {
+            return self::TYPE_NULL;
+        }
+
+        if (is_bool($this->document)) {
+            return self::TYPE_BOOLEAN;
+        }
+
+        if (is_string($this->document)) {
+            return self::TYPE_STRING;
+        }
+
+        if (is_numeric($this->document)) {
+            $type = self::TYPE_NUMBER;
+            if (is_int($this->document) || $this->document == floor($this->document)) {
+                $type |= self::TYPE_INTEGER;
+            }
+            return $type;
+        }
+
+        if (is_array($this->document)) {
+            return self::TYPE_ARRAY;
+        }
+
+        if (is_object($this->document)) {
+            return self::TYPE_OBJECT;
+        }
+
+        throw new Exception(self::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($this->document)); // @codeCoverageIgnore
+    }
+
+    /**
+     * Get the document value
+     *
+     * @since 1.0.0
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->document;
+    }
+
+    /**
      * Get the value at a given path
      *
      * @since 1.1.0
@@ -374,14 +338,50 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Get an iterator handle
+     * Test whether the document value is *not* of a given type
      *
      * @since 1.3.0
      *
-     * @return Iterator Iterator instance
+     * @param int $types Types to test for
+     * @return bool Whether the type does not match
      */
-    public function getIterator() : Iterator
+    public function isNotType(int $types) : bool
     {
-        return new Iterator($this);
+        return ($this->getType() & $types) == 0;
+    }
+
+    /**
+     * Test whether the document value is of a given type
+     *
+     * @since 1.3.0
+     *
+     * @param int $types Types to test for
+     * @param int $all Whether to require all types, or just one
+     * @return bool Whether the type matches
+     */
+    public function isType(int $types, bool $all = false)
+    {
+        if ($all) {
+            return ($this->getType() & $types) == $types;
+        }
+        return (bool)($this->getType() & $types);
+    }
+
+    /**
+     * Check whether a sibling exists
+     *
+     * @since 1.0.0
+     *
+     * @param mixed $key Index key
+     * @return bool Whether the sibling exists
+     */
+    public function siblingExists($key) : bool
+    {
+        // root nodes have no siblings
+        if (is_null($this->parent)) {
+            return false;
+        }
+
+        return $this->parent->childExists($key);
     }
 }
