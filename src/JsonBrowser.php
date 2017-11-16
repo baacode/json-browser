@@ -181,6 +181,36 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Test whether the document value is of a given type
+     *
+     * @since 1.3.0
+     *
+     * @param int $types Types to test for
+     * @param int $all Whether to require all types, or just one
+     * @return bool Whether the type matches
+     */
+    public function isType(int $types, bool $all = false)
+    {
+        if ($all) {
+            return ($this->getType() & $types) == $types;
+        }
+        return (bool)($this->getType() & $types);
+    }
+
+    /**
+     * Test whether the document value is *not* of a given type
+     *
+     * @since 1.3.0
+     *
+     * @param int $types Types to test for
+     * @return bool Whether the type does not match
+     */
+    public function isNotType(int $types) : bool
+    {
+        return ($this->getType() & $types) == 0;
+    }
+
+    /**
      * Get root node
      *
      * @since 1.0.0
