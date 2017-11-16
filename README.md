@@ -64,6 +64,9 @@ $path = $node->getPath();
 $json = $node->getJSON();
 ```
 
+Documentation
+-------------
+
 Comprehensive API documentation is available [here](https://baacode.github.io/json-browser/).
 
 Installation
