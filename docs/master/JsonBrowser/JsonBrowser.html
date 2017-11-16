@@ -244,6 +244,26 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isType">isType</a>(int $types, bool $all = false)
+        
+                                            <p>Test whether the document value is of a given type</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isNotType">isNotType</a>(int $types)
+        
+                                            <p>Test whether the document value is <em>not</em> of a given type</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -505,8 +525,93 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_isType">
+        <div class="location">at         line 192</div>
+        <code>                    bool
+    <strong>isType</strong>(int $types, bool $all = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Test whether the document value is of a given type</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$types</td>
+                <td>Types to test for</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$all</td>
+                <td>Whether to require all types, or just one</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the type matches</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isNotType">
+        <div class="location">at         line 208</div>
+        <code>                    bool
+    <strong>isNotType</strong>(int $types)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Test whether the document value is <em>not</em> of a given type</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$types</td>
+                <td>Types to test for</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the type does not match</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getRoot">
-        <div class="location">at         line 190</div>
+        <div class="location">at         line 220</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getRoot</strong>()
         </code>
@@ -536,7 +641,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getParent">
-        <div class="location">at         line 202</div>
+        <div class="location">at         line 232</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|null
     <strong>getParent</strong>()
         </code>
@@ -566,7 +671,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_childExists">
-        <div class="location">at         line 215</div>
+        <div class="location">at         line 245</div>
         <code>                    bool
     <strong>childExists</strong>(mixed $key)
         </code>
@@ -606,7 +711,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChild">
-        <div class="location">at         line 235</div>
+        <div class="location">at         line 265</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getChild</strong>(mixed $key)
         </code>
@@ -646,7 +751,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_siblingExists">
-        <div class="location">at         line 266</div>
+        <div class="location">at         line 296</div>
         <code>                    bool
     <strong>siblingExists</strong>(mixed $key)
         </code>
@@ -686,7 +791,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSibling">
-        <div class="location">at         line 284</div>
+        <div class="location">at         line 314</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getSibling</strong>(mixed $key)
         </code>
@@ -726,7 +831,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNodeAt">
-        <div class="location">at         line 303</div>
+        <div class="location">at         line 333</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getNodeAt</strong>(string $path)
         </code>
@@ -766,7 +871,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getValueAt">
-        <div class="location">at         line 325</div>
+        <div class="location">at         line 355</div>
         <code>                    mixed
     <strong>getValueAt</strong>(string $path)
         </code>
@@ -806,7 +911,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIterator">
-        <div class="location">at         line 337</div>
+        <div class="location">at         line 367</div>
         <code>                    <a href="../JsonBrowser/Iterator.html"><abbr title="JsonBrowser\Iterator">Iterator</abbr></a>
     <strong>getIterator</strong>()
         </code>
