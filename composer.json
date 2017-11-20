@@ -34,10 +34,10 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit",
-        "style-check": "phpcs --standard=PSR2 src && phpcs --standard=PSR2 tests",
-        "style-fix": "phpcbf --standard=PSR2 src && phpcbf --standard=PSR2 tests",
-        "coverage": "phpunit --coverage-clover=coverage.xml --coverage-text",
-        "build-doc": "sami.php update sami.php",
-        "clean": "rm -rf vendor composer.lock"
+        "style-check": "./vendor/bin/phpcs --standard=PSR2 src && phpcs --standard=PSR2 tests",
+        "style-fix": "./vendor/bin/phpcbf --standard=PSR2 src && phpcbf --standard=PSR2 tests",
+        "coverage": "./vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text",
+        "build-doc": "./vendor/bin/sami.php update sami.php",
+        "clean": "rm -rf docs/.cache vendor composer.lock"
     }
 }
