@@ -51,6 +51,9 @@ $value = $node->getValue();
 // get node type
 $type = $node->getType();
 
+// check whether the node exists
+$nodeExists = $node->nodeExists();
+
 // test whether the node is at least one of the given types
 $isType = $node->isType(JsonBrowser::TYPE_STRING | JsonBrowser::TYPE_NUMBER);
 
@@ -65,9 +68,6 @@ $path = $node->getPath();
 
 // get JSON source for node
 $json = $node->getJSON();
-
-// check whether current node exists
-$nodeExists = $node->nodeExists();
 
 ```
 
