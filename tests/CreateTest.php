@@ -40,4 +40,15 @@ class CreateTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(json_decode($json), $browser->getValue());
         }
     }
+
+    public function testExists()
+    {
+        $browser = new JsonBrowser('{"propertyOne": {"propertyTwo": "valueTwo"}}');
+
+        $this->assertTrue($browser->getNodeAt('#/propertyOne')->nodeExists());
+        $this->assertFalse($browser->getNodeAt('#/propertyThree')->nodeExists());
+        $this->assertTrue($browser->getNodeAt('#/propertyOne/propertyTwo')->nodeExists());
+        $this->assertFalse($browser->getNodeAt('#/propertyOne/propertyThree')->nodeExists());
+        $this->assertFalse($browser->getNodeAt('#/propertyOne/propertyThree/propertyFour')->nodeExists());
+    }
 }

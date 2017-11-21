@@ -65,6 +65,10 @@ $path = $node->getPath();
 
 // get JSON source for node
 $json = $node->getJSON();
+
+// check whether current node exists
+$nodeExists = $node->nodeExists();
+
 ```
 
 Documentation

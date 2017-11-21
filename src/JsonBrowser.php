@@ -70,6 +70,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Node key */
     private $key = null;
 
+    /** Whether this node exists */
+    private $exists = true;
+
     /**
      * Create a new instance
      *
@@ -142,6 +145,7 @@ class JsonBrowser implements \IteratorAggregate
             }
             $child = clone $this;
             $child->document = null;
+            $child->exists = false;
         } else {
             $child = clone $this;
             if (is_array($this->document)) {
@@ -384,6 +388,18 @@ class JsonBrowser implements \IteratorAggregate
             return ($this->getType() & $types) == $types;
         }
         return (bool)($this->getType() & $types);
+    }
+
+    /**
+     * Check whether the current node exists in the parent document
+     *
+     * @since 1.4.0
+     *
+     * @return bool
+     */
+    public function nodeExists() : bool
+    {
+        return $this->exists;
     }
 
     /**
