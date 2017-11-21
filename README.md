@@ -57,6 +57,9 @@ $isType = $node->isType(JsonBrowser::TYPE_STRING | JsonBrowser::TYPE_NUMBER);
 // test whether the node is *not* any of the given types
 $isNotType = $node->isNotType(JsonBrowser::TYPE_NULL | JsonBrowser::TYPE_INTEGER);
 
+// test for equality
+$isEqual = $node->isEqualTo("myValue");
+
 // get node path
 $path = $node->getPath();
 
