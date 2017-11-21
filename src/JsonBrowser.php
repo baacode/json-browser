@@ -338,6 +338,25 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Test whether the document value is equal to a given value
+     *
+     * @since 1.4.0
+     *
+     * @param self|mixed $value Value to compare against
+     * @return bool
+     */
+    public function isEqualTo($value) : bool
+    {
+        // unroll JsonBrowser objects
+        if (is_object($value) && $value instanceof self) {
+            $value = $value->getValue();
+        }
+
+        // test equality
+        return $this->compare($this->document, $value);
+    }
+
+    /**
      * Test whether the document value is *not* of a given type
      *
      * @since 1.3.0
@@ -383,5 +402,41 @@ class JsonBrowser implements \IteratorAggregate
         }
 
         return $this->parent->childExists($key);
+    }
+
+    /**
+     * Recursively compare two values for equality
+     *
+     * @since 1.4.0
+     *
+     * @param mixed $valueOne
+     * @param mixed $valueTwo
+     * @return bool
+     */
+    private function compare($valueOne, $valueTwo) : bool
+    {
+
+        // fast-path for type-equal (or instance-equal) values
+        if ($valueOne === $valueTwo) {
+            return true;
+        }
+
+        // recursive object comparison
+        if (is_object($valueOne) && is_object($valueTwo)) {
+            foreach ($valueOne as $pName => $pValue) {
+                if (!property_exists($valueTwo, $pName) || !$this->compare($valueOne->$pName, $valueTwo->$pName)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // compare numeric types loosely, but don't accept numeric strings
+        if (!is_string($valueOne) && !is_string($valueTwo) && is_numeric($valueOne) && is_numeric($valueTwo)) {
+            return ($valueOne == $valueTwo);
+        }
+
+        // strict equality check failed
+        return false;
     }
 }
