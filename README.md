@@ -5,6 +5,7 @@ JSON Browser
 [![Coverage Status](https://coveralls.io/repos/github/baacode/json-browser/badge.svg?branch=master)](https://coveralls.io/github/baacode/json-browser?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/baacode/json-browser/version)](https://packagist.org/packages/baacode/json-browser)
 [![License](https://poser.pugx.org/baacode/json-browser/license)](https://packagist.org/packages/baacode/json-browser)
+[![Maintainability](https://api.codeclimate.com/v1/badges/066738ab622644a2ab55/maintainability)](https://codeclimate.com/github/baacode/json-browser/maintainability)
 
 Usage
 -----
