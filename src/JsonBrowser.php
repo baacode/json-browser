@@ -428,6 +428,11 @@ class JsonBrowser implements \IteratorAggregate
                     return false;
                 }
             }
+            foreach ($valueTwo as $pName => $pValue) {
+                if (!property_exists($valueOne, $pName)) {
+                    return false;
+                }
+            }
             return true;
         }
 
