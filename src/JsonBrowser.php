@@ -139,20 +139,19 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getChild($key) : self
     {
-        if (!$this->childExists($key)) {
-            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
-                throw new Exception(self::ERR_UNKNOWN_CHILD, 'Unknown child: %s', $key);
-            }
-            $child = clone $this;
-            $child->document = null;
-            $child->exists = false;
-        } else {
+        if ($this->childExists($key)) {
             $child = clone $this;
             if (is_array($this->document)) {
                 $child->document = $this->document[$key];
             } elseif (is_object($this->document)) {
                 $child->document = $this->document->$key;
             }
+        } elseif ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
+            throw new Exception(self::ERR_UNKNOWN_CHILD, 'Unknown child: %s', $key);
+        } else {
+            $child = clone $this;
+            $child->document = null;
+            $child->exists = false;
         }
 
         $child->parent = $this;
