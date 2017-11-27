@@ -208,10 +208,17 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getNodeAt(string $path) : self
     {
+        // fast-path for references to the root node
+        if ($path == '#/') {
+            return $this->root;
+        }
+
+        // decode pointer
         $path = array_map(function ($element) {
             return strtr($element, ['%25' => '%', '~1' => '/', '~0' => '~']);
         }, explode('/', substr($path, 2)));
 
+        // walk path from root
         $node = $this->root;
         while (count($path)) {
             $node = $node->getChild(array_shift($path));
