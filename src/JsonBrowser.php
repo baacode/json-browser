@@ -119,10 +119,12 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function childExists($key) : bool
     {
-        if (is_array($this->document)) {
-            return array_key_exists($key, $this->document);
-        } elseif (is_object($this->document)) {
-            return property_exists($this->document, $key);
+        $documentValue = $this->getValue();
+
+        if (is_array($documentValue)) {
+            return array_key_exists($key, $documentValue);
+        } elseif (is_object($documentValue)) {
+            return property_exists($documentValue, $key);
         }
 
         // non-container types cannot contain children
@@ -139,12 +141,14 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getChild($key) : self
     {
+        $documentValue = $this->getValue();
+
         if ($this->childExists($key)) {
             $child = clone $this;
-            if (is_array($this->document)) {
-                $child->document = $this->document[$key];
-            } elseif (is_object($this->document)) {
-                $child->document = $this->document->$key;
+            if (is_array($documentValue)) {
+                $child->document = $documentValue[$key];
+            } elseif (is_object($documentValue)) {
+                $child->document = $documentValue->$key;
             }
         } elseif ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
             throw new Exception(self::ERR_UNKNOWN_CHILD, 'Unknown child: %s', $key);
@@ -183,7 +187,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getJSON(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
     {
-        return json_encode($this->document, $options);
+        return json_encode($this->getValue(), $options);
     }
 
     /**
@@ -291,35 +295,37 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getType() : int
     {
-        if (is_null($this->document)) {
+        $documentValue = $this->getValue();
+
+        if (is_null($documentValue)) {
             return self::TYPE_NULL;
         }
 
-        if (is_bool($this->document)) {
+        if (is_bool($documentValue)) {
             return self::TYPE_BOOLEAN;
         }
 
-        if (is_string($this->document)) {
+        if (is_string($documentValue)) {
             return self::TYPE_STRING;
         }
 
-        if (is_numeric($this->document)) {
+        if (is_numeric($documentValue)) {
             $type = self::TYPE_NUMBER;
-            if (is_int($this->document) || $this->document == floor($this->document)) {
+            if (is_int($documentValue) || $documentValue == floor($documentValue)) {
                 $type |= self::TYPE_INTEGER;
             }
             return $type;
         }
 
-        if (is_array($this->document)) {
+        if (is_array($documentValue)) {
             return self::TYPE_ARRAY;
         }
 
-        if (is_object($this->document)) {
+        if (is_object($documentValue)) {
             return self::TYPE_OBJECT;
         }
 
-        throw new Exception(self::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($this->document)); // @codeCoverageIgnore
+        throw new Exception(self::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($documentValue)); // @codeCoverageIgnore
     }
 
     /**
@@ -363,7 +369,7 @@ class JsonBrowser implements \IteratorAggregate
         }
 
         // test equality
-        return $this->compare($this->document, $value);
+        return $this->compare($this->getValue(), $value);
     }
 
     /**
