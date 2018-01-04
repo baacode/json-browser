@@ -138,6 +138,20 @@
                 </td>
             </tr>
                     <tr>
+                <td>ERR_UNKNOWN_SELF</td>
+                <td class="last">
+                    <p><em>Unknown self</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_INVALID_CONTAINER_TYPE</td>
+                <td class="last">
+                    <p><em>Invalid container type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
                 <td>TYPE_NULL</td>
                 <td class="last">
                     <p><em>NULL type</em></p>
@@ -375,6 +389,26 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setValue">setValue</a>(mixed $value, bool $padSparseArray = false)
+        
+                                            <p>Set the node value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setValueAt">setValueAt</a>(string $path, mixed $value, bool $padSparseArray = false)
+        
+                                            <p>Set the value at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     bool
                 </div>
                 <div class="col-md-8 type">
@@ -391,7 +425,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 84</div>
+        <div class="location">at         line 90</div>
         <code>                    
     <strong>__construct</strong>(string $json, int $options)
         </code>
@@ -427,7 +461,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_childExists">
-        <div class="location">at         line 120</div>
+        <div class="location">at         line 126</div>
         <code>                    bool
     <strong>childExists</strong>(mixed $key)
         </code>
@@ -467,7 +501,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChild">
-        <div class="location">at         line 140</div>
+        <div class="location">at         line 148</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getChild</strong>(mixed $key)
         </code>
@@ -507,7 +541,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getIterator">
-        <div class="location">at         line 171</div>
+        <div class="location">at         line 173</div>
         <code>                    <a href="../JsonBrowser/Iterator.html"><abbr title="JsonBrowser\Iterator">Iterator</abbr></a>
     <strong>getIterator</strong>()
         </code>
@@ -537,7 +571,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getJSON">
-        <div class="location">at         line 184</div>
+        <div class="location">at         line 186</div>
         <code>                    string
     <strong>getJSON</strong>(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
         </code>
@@ -577,7 +611,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getKey">
-        <div class="location">at         line 196</div>
+        <div class="location">at         line 198</div>
         <code>                    mixed
     <strong>getKey</strong>()
         </code>
@@ -607,7 +641,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getNodeAt">
-        <div class="location">at         line 209</div>
+        <div class="location">at         line 211</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getNodeAt</strong>(string $path)
         </code>
@@ -647,7 +681,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getParent">
-        <div class="location">at         line 230</div>
+        <div class="location">at         line 239</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|null
     <strong>getParent</strong>()
         </code>
@@ -677,7 +711,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getPath">
-        <div class="location">at         line 242</div>
+        <div class="location">at         line 251</div>
         <code>                    string
     <strong>getPath</strong>()
         </code>
@@ -707,7 +741,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getRoot">
-        <div class="location">at         line 254</div>
+        <div class="location">at         line 263</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getRoot</strong>()
         </code>
@@ -737,7 +771,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getSibling">
-        <div class="location">at         line 267</div>
+        <div class="location">at         line 276</div>
         <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
     <strong>getSibling</strong>(mixed $key)
         </code>
@@ -777,7 +811,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at         line 285</div>
+        <div class="location">at         line 294</div>
         <code>                    int
     <strong>getType</strong>()
         </code>
@@ -807,7 +841,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getValue">
-        <div class="location">at         line 325</div>
+        <div class="location">at         line 336</div>
         <code>                    mixed
     <strong>getValue</strong>()
         </code>
@@ -837,7 +871,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getValueAt">
-        <div class="location">at         line 338</div>
+        <div class="location">at         line 350</div>
         <code>                    mixed
     <strong>getValueAt</strong>(string $path)
         </code>
@@ -877,7 +911,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isEqualTo">
-        <div class="location">at         line 351</div>
+        <div class="location">at         line 363</div>
         <code>                    bool
     <strong>isEqualTo</strong>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $value)
         </code>
@@ -917,7 +951,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isNotType">
-        <div class="location">at         line 370</div>
+        <div class="location">at         line 382</div>
         <code>                    bool
     <strong>isNotType</strong>(int $types)
         </code>
@@ -957,7 +991,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isType">
-        <div class="location">at         line 384</div>
+        <div class="location">at         line 396</div>
         <code>                    bool
     <strong>isType</strong>(int $types, bool $all = false)
         </code>
@@ -1002,7 +1036,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_nodeExists">
-        <div class="location">at         line 399</div>
+        <div class="location">at         line 411</div>
         <code>                    bool
     <strong>nodeExists</strong>()
         </code>
@@ -1031,8 +1065,85 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_setValue">
+        <div class="location">at         line 429</div>
+        <code>                    
+    <strong>setValue</strong>(mixed $value, bool $padSparseArray = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set the node value</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>Data to set</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$padSparseArray</td>
+                <td>Whether to left-pad sparse arrays with null values</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setValueAt">
+        <div class="location">at         line 474</div>
+        <code>                    
+    <strong>setValueAt</strong>(string $path, mixed $value, bool $padSparseArray = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set the value at a given path</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>JSON pointer to the requested node</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>Data to set</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$padSparseArray</td>
+                <td>Whether to left-pad sparse arrays with null values</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_siblingExists">
-        <div class="location">at         line 412</div>
+        <div class="location">at         line 487</div>
         <code>                    bool
     <strong>siblingExists</strong>(mixed $key)
         </code>
