@@ -70,9 +70,6 @@ class JsonBrowser implements \IteratorAggregate
     /** Node key */
     private $key = null;
 
-    /** Whether this node exists */
-    private $exists = true;
-
     /**
      * Create a new instance
      *
@@ -411,7 +408,12 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function nodeExists() : bool
     {
-        return $this->exists;
+        // the root node always exists
+        if ($this === $this->root) {
+            return true;
+        }
+
+        return $this->parent->childExists($this->getKey());
     }
 
     /**

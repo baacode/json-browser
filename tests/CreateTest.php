@@ -45,6 +45,7 @@ class CreateTest extends \PHPUnit\Framework\TestCase
     {
         $browser = new JsonBrowser('{"propertyOne": {"propertyTwo": "valueTwo"}}');
 
+        $this->assertTrue($browser->nodeExists());
         $this->assertTrue($browser->getNodeAt('#/propertyOne')->nodeExists());
         $this->assertFalse($browser->getNodeAt('#/propertyThree')->nodeExists());
         $this->assertTrue($browser->getNodeAt('#/propertyOne/propertyTwo')->nodeExists());
