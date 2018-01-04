@@ -152,7 +152,6 @@ class JsonBrowser implements \IteratorAggregate
         } else {
             $child = clone $this;
             $child->document = null;
-            $child->exists = false;
         }
 
         $child->parent = $this;
