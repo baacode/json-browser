@@ -31,6 +31,12 @@ class JsonBrowser implements \IteratorAggregate
     /** Unknown sibling */
     const ERR_UNKNOWN_SIBLING = 4;
 
+    /** Unknown self */
+    const ERR_UNKNOWN_SELF = 5;
+
+    /** Invalid container type */
+    const ERR_INVALID_CONTAINER_TYPE = 6;
+
     /** NULL type */
     const TYPE_NULL = 1;
 
@@ -69,6 +75,9 @@ class JsonBrowser implements \IteratorAggregate
 
     /** Node key */
     private $key = null;
+
+    /** Change generation */
+    private $generation = 0;
 
     /**
      * Create a new instance
@@ -140,23 +149,16 @@ class JsonBrowser implements \IteratorAggregate
     {
         $documentValue = $this->getValue();
 
-        if ($this->childExists($key)) {
-            $child = clone $this;
-            if (is_array($documentValue)) {
-                $child->document = $documentValue[$key];
-            } elseif (is_object($documentValue)) {
-                $child->document = $documentValue->$key;
-            }
-        } elseif ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
+        if (!$this->childExists($key) && ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS)) {
             throw new Exception(self::ERR_UNKNOWN_CHILD, 'Unknown child: %s', $key);
-        } else {
-            $child = clone $this;
-            $child->document = null;
         }
 
+        $child = clone $this;
         $child->parent = $this;
         $child->path[] = strtr($key, ['~' => '~0', '/' => '~1', '%' => '%25']);
         $child->key = $key;
+        $child->document = null;
+        $child->generation--;
 
         return $child;
     }
@@ -333,6 +335,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getValue()
     {
+        $this->refresh();
         return $this->document;
     }
 
@@ -416,6 +419,64 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Set the node value
+     *
+     * @since 1.4.0
+     *
+     * @param mixed $value          Data to set
+     * @param bool  $padSparseArray Whether to left-pad sparse arrays with null values
+     */
+    public function setValue($value, bool $padSparseArray = false)
+    {
+        // get node
+        $node = &$this->root->document;
+        foreach ($this->path as $element) {
+            // promote null to array
+            if (is_null($node)) {
+                $node = [];
+            }
+
+            // promote array to object if element is not an integer array key
+            if (is_array($node) && (!is_numeric($element) || $element != floor($element))) {
+                $node = (object)$node;
+            }
+
+            // step into child node
+            if (is_array($node)) {
+                // pad array with nulls to desired index
+                if ($padSparseArray) {
+                    for ($i = 0; $i < $element; $i++) {
+                        $node[$i] = null;
+                    }
+                }
+                $node = &$node[$element];
+            } elseif (is_object($node)) {
+                $node = &$node->$element;
+            } else {
+                throw new Exception(self::ERR_INVALID_CONTAINER_TYPE, 'Invalid container type: %s', gettype($node));
+            }
+        }
+
+        // set value
+        $node = $value;
+        $this->root->generation++;
+    }
+
+    /**
+     * Set the value at a given path
+     *
+     * @since 1.4.0
+     *
+     * @param string $path           JSON pointer to the requested node
+     * @param mixed  $value          Data to set
+     * @param bool   $padSparseArray Whether to left-pad sparse arrays with null values
+     */
+    public function setValueAt(string $path, $value, bool $padSparseArray = false)
+    {
+        return $this->getNodeAt($path)->setValue($value, $padSparseArray);
+    }
+
+    /**
      * Check whether a sibling exists
      *
      * @since 1.0.0
@@ -472,5 +533,37 @@ class JsonBrowser implements \IteratorAggregate
 
         // strict equality check failed
         return false;
+    }
+
+    /**
+     * Refresh document value to take new changes into account
+     *
+     * @since 1.4.0
+     */
+    private function refresh()
+    {
+        // if there are no changes, or we are the root, then no update is required
+        if ($this->generation == $this->root->generation || $this === $this->root) {
+            return;
+        }
+
+        // refresh parent
+        $this->parent->refresh();
+
+        // refresh self
+        if (!$this->parent->childExists($this->getKey())) {
+            $this->document = null;
+            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
+                throw new Exception(self::ERR_UNKNOWN_SELF, 'Current node is unknown: %s', $this->getPath());
+            }
+        } else {
+            $parentValue = $this->parent->getValue();
+            if (is_array($parentValue)) {
+                $this->document = $parentValue[$this->getKey()];
+            } else {
+                $this->document = $parentValue->{$this->getKey()};
+            }
+        }
+        $this->generation = $this->parent->generation;
     }
 }

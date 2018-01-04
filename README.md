@@ -40,6 +40,9 @@ $node = $browser->getNodeAt('#/childName/grandchildName/4');
 // get arbitrary node value by path
 $value = $browser->getValueAt('#/childName/grandchildName/4');
 
+// set arbitrary node value by path
+$browser->setValueAt('#/childName/grandchildName/4', 'myValue')
+
 // get root node
 $root = $node->getRoot();
 
@@ -48,6 +51,9 @@ $parent = $node->getParent();
 
 // get node value
 $value = $node->getValue();
+
+// set node value
+$node->setValue('myValue');
 
 // get node type
 $type = $node->getType();
