@@ -3,6 +3,7 @@
 namespace JsonBrowser\Tests;
 
 use JsonBrowser\Exception;
+use JsonBrowser\JsonBrowser;
 
 class ExceptionTest extends \PHPUnit\Framework\TestCase
 {
@@ -36,4 +37,71 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
             throw $e; // re-throw to prove that the catch block actually ran
         }
     }
+
+    public function getExceptionBrowser()
+    {
+        return new JsonBrowser('{"childOne": "valueOne", "childTwo": ["valueTwo"]}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+    }
+
+    public function testNoExceptionOnValidNode()
+    {
+        $browser = $this->getExceptionBrowser();
+        $this->assertInstanceOf(JsonBrowser::class, $browser->getChild('childOne'));
+        $this->assertInstanceOf(JsonBrowser::class, $browser->childOne);
+        $this->assertInstanceOf(JsonBrowser::class, $browser->getNodeAt('#/childOne'));
+        $this->assertInstanceOf(JsonBrowser::class, $browser->childOne->getSibling('childTwo'));
+    }
+
+    public function testNoExceptionOnExists()
+    {
+        $browser = $this->getExceptionBrowser();
+        $childOne = $browser->getChild('childOne');
+        $childOne->deleteValue();
+        $this->assertFalse($childOne->nodeExists());
+    }
+
+    public function testDeletedNodeValueException()
+    {
+        $browser = $this->getExceptionBrowser();
+        $childOne = $browser->getChild('childOne');
+        $childOne->deleteValue();
+        $this->expectException(Exception::class);
+        $childOne->getValue();
+    }
+
+    public function testNonContainerChildException()
+    {
+        $browser = $this->getExceptionBrowser();
+        $this->expectException(Exception::class);
+        $browser->getChild('childOne')->getChild('childThree');
+    }
+
+    public function testNonExistentChildException()
+    {
+        $browser = $this->getExceptionBrowser();
+        $this->expectException(Exception::class);
+        $browser->getChild('childThree');
+    }
+
+    public function testNonExistentNodeException()
+    {
+        $browser = $this->getExceptionBrowser();
+        $this->expectException(Exception::class);
+        $browser->getNodeAt('#/childThree');
+    }
+
+    public function testNonExistentChildValueException()
+    {
+        $browser = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS | JsonBrowser::OPT_GET_VALUE);
+        $this->expectException(Exception::class);
+        $browser->childThree;
+    }
+
+    public function testNonExistentNodeValueException()
+    {
+        $browser = $this->getExceptionBrowser();
+        $this->expectException(Exception::class);
+        $browser->getValueAt('#/childThree');
+    }
+
 }
