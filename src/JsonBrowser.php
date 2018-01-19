@@ -17,6 +17,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Throw exceptions instead of using NULL for nonexistent children & siblings */
     const OPT_NONEXISTENT_EXCEPTIONS = 1;
 
+    /** Get node value instead of JsonBrowser object for __get() */
+    const OPT_GET_VALUE = 2;
+
     /** Error decoding JSON data */
     const ERR_DECODING_ERROR = 1;
 
@@ -87,15 +90,19 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Dynamically get child nodes as object properties
+     * Dynamically get child nodes or values as object properties
      *
      * @since 1.5.0
      *
-     * @param mixed $key Index key
+     * @param self|mixed $key Index key
      */
-    public function __get($key) : self
+    public function __get($key)
     {
-        return $this->getChild($key);
+        if ($this->options & self::OPT_GET_VALUE) {
+            return $this->getChild($key)->getValue();
+        } else {
+            return $this->getChild($key);
+        }
     }
 
     /**

@@ -84,4 +84,10 @@ class ChildTest extends \PHPUnit\Framework\TestCase
         $root->childTwo = 'valueTwo';
         $this->assertEquals('{"childOne":"valueOne","childTwo":"valueTwo"}', $root->getJSON(0));
     }
+
+    public function testDynamicGetValue()
+    {
+        $root = new JsonBrowser('{"childOne": "valueOne"}', JsonBrowser::OPT_GET_VALUE);
+        $this->assertEquals('valueOne', $root->childOne);
+    }
 }
