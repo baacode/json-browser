@@ -122,15 +122,7 @@ class Context
         // follow path to conclusion and create missing elements
         while (count($path)) {
             $element = array_shift($path);
-            // promote null to array
-            if (is_null($target)) {
-                $target = [];
-            }
-
-            // promote array to object if element is not an integer array key
-            if (is_array($target) && !(is_numeric($element) && $element == floor($element))) {
-                $target = (object)$target;
-            }
+            $this->promoteContainer($target, $element);
 
             // step into child element
             if (is_array($target)) {
@@ -162,5 +154,26 @@ class Context
 
         // set value of target
         $target = $value;
+    }
+
+    /**
+     * Promote container type as necessary to hold a child key
+     *
+     * @since 1.5.0
+     *
+     * @param mixed $container  Target container
+     * @param mixed $key        Intended key
+     */
+    private function promoteContainer(&$container, $key)
+    {
+        // promote null to array
+        if (is_null($container)) {
+            $container = [];
+        }
+
+        // promote array to object if the key is not an integer
+        if (is_array($container) && !(is_numeric($key) && $key == floor($key))) {
+            $container = (object)$container;
+        }
     }
 }
