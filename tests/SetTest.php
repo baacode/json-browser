@@ -136,4 +136,11 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('valueOne', $pre);
         $this->assertSame('valueTwo', $post);
     }
+
+    public function testDeleteChildOfInvalidContainer()
+    {
+        $browser = new JsonBrowser('"this is a string"');
+        $browser->deleteValueAt('#/non/existent/path');
+        $this->assertEquals('"this is a string"', $browser->getJSON());
+    }
 }
