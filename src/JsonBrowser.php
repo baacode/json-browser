@@ -214,7 +214,7 @@ class JsonBrowser implements \IteratorAggregate
      * @since 1.0.0
      *
      * @param string $path JSON pointer to the requested node
-     * @return self
+     * @return self Node at the target path
      */
     public function getNodeAt(string $path) : self
     {
@@ -278,7 +278,7 @@ class JsonBrowser implements \IteratorAggregate
      * @since 1.0.0
      *
      * @param mixed $key Index key
-     * @return self
+     * @return self Sibling node
      */
     public function getSibling($key) : self
     {
@@ -299,7 +299,7 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.0.0
      *
-     * @return int
+     * @return int Bitmask list of applicable types (See JsonBrowser::TYPE_* constants)
      */
     public function getType() : int
     {
@@ -337,11 +337,11 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
-     * Get the document value
+     * Get the node value
      *
      * @since 1.0.0
      *
-     * @return mixed
+     * @return mixed Node value
      */
     public function getValue()
     {
@@ -376,10 +376,15 @@ class JsonBrowser implements \IteratorAggregate
     /**
      * Test whether the document value is equal to a given value
      *
+     * Comparisons considered equal:
+     *  - normal strictly-typed equality (===)
+     *  - loosely-typed equality (==) where both values are numeric and are *not* strings
+     *  - any object having the same number and value for all properties, as per the above tests
+     *
      * @since 1.4.0
      *
      * @param self|mixed $value Value to compare against
-     * @return bool
+     * @return bool Whether the node value is equal to $value
      */
     public function isEqualTo($value) : bool
     {
@@ -427,7 +432,7 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.4.0
      *
-     * @return bool
+     * @return bool Whether the current node exists
      */
     public function nodeExists() : bool
     {

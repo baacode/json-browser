@@ -382,7 +382,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_getValue">getValue</a>()
         
-                                            <p>Get the document value</p>                </div>
+                                            <p>Get the node value</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -851,7 +851,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
-            <td></td>
+            <td>Node at the target path</td>
         </tr>
     </table>
 
@@ -981,7 +981,7 @@
                     <table class="table table-condensed">
         <tr>
             <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
-            <td></td>
+            <td>Sibling node</td>
         </tr>
     </table>
 
@@ -1011,7 +1011,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>int</td>
-            <td></td>
+            <td>Bitmask list of applicable types (See JsonBrowser::TYPE_* constants)</td>
         </tr>
     </table>
 
@@ -1033,7 +1033,7 @@
     
 
                     <div class="method-description">
-                                    <p>Get the document value</p>                                                </div>
+                                    <p>Get the node value</p>                                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -1041,7 +1041,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>mixed</td>
-            <td></td>
+            <td>Node value</td>
         </tr>
     </table>
 
@@ -1093,7 +1093,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isEqualTo">
-        <div class="location">at         line 384</div>
+        <div class="location">at         line 389</div>
         <code>                    bool
     <strong>isEqualTo</strong>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $value)
         </code>
@@ -1103,7 +1103,10 @@
     
 
                     <div class="method-description">
-                                    <p>Test whether the document value is equal to a given value</p>                                                </div>
+                                    <p>Test whether the document value is equal to a given value</p>                    <p>Comparisons considered equal:
+ - normal strictly-typed equality (===)
+ - loosely-typed equality (==) where both values are numeric and are <em>not</em> strings
+ - any object having the same number and value for all properties, as per the above tests</p>                            </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -1121,7 +1124,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>bool</td>
-            <td></td>
+            <td>Whether the node value is equal to $value</td>
         </tr>
     </table>
 
@@ -1133,7 +1136,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isNotType">
-        <div class="location">at         line 403</div>
+        <div class="location">at         line 408</div>
         <code>                    bool
     <strong>isNotType</strong>(int $types)
         </code>
@@ -1173,7 +1176,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isType">
-        <div class="location">at         line 417</div>
+        <div class="location">at         line 422</div>
         <code>                    bool
     <strong>isType</strong>(int $types, bool $all = false)
         </code>
@@ -1218,7 +1221,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_nodeExists">
-        <div class="location">at         line 432</div>
+        <div class="location">at         line 437</div>
         <code>                    bool
     <strong>nodeExists</strong>()
         </code>
@@ -1236,7 +1239,7 @@
                     <table class="table table-condensed">
         <tr>
             <td>bool</td>
-            <td></td>
+            <td>Whether the current node exists</td>
         </tr>
     </table>
 
@@ -1248,7 +1251,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setValue">
-        <div class="location">at         line 445</div>
+        <div class="location">at         line 450</div>
         <code>                    
     <strong>setValue</strong>(mixed $value, bool $padSparseArray = false)
         </code>
@@ -1284,7 +1287,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setValueAt">
-        <div class="location">at         line 459</div>
+        <div class="location">at         line 464</div>
         <code>                    
     <strong>setValueAt</strong>(string $path, mixed $value, bool $padSparseArray = false)
         </code>
@@ -1325,7 +1328,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_siblingExists">
-        <div class="location">at         line 472</div>
+        <div class="location">at         line 477</div>
         <code>                    bool
     <strong>siblingExists</strong>(mixed $key)
         </code>
