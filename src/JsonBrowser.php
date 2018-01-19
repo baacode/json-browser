@@ -112,6 +112,19 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Delete the value at a given path
+     *
+     * @since 1.5.0
+     *
+     * @param string $path JSON pointer to the node that should be deleted
+     * @param bool $deleteEmpty Whether to delete empty containers
+     */
+    public function deleteValueAt(string $path, bool $deleteEmpty = false)
+    {
+        $this->context->deleteValue(Util::decodePointer($path), $deleteEmpty);
+    }
+
+    /**
      * Get a child node
      *
      * @since 1.0.0
