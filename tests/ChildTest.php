@@ -75,4 +75,23 @@ class ChildTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($root, $childOne->getParent());
         $this->assertEquals($childOne, $childTwo->getParent());
     }
+
+    public function testDeletedChild()
+    {
+        $root = new JsonBrowser('{"childOne": ["valueOne"], "childTwo": {}}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $childOne = $root->getChild('childOne');
+        $gcOne = $childOne->getChild(0);
+        $childTwo = $root->getChild('childOne');
+
+        $this->assertTrue($gcOne->nodeExists());
+        $childOne->setValue('valueOne');
+        $this->assertFalse($gcOne->nodeExists());
+
+        $this->assertTrue($childTwo->nodeExists());
+        $childTwo->deleteValue();
+        $this->assertFalse($childTwo->nodeExists());
+
+        $this->expectException(Exception::class);
+        $childTwo->getValue();
+    }
 }

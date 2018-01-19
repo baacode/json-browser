@@ -157,6 +157,44 @@ class Context
     }
 
     /**
+     * Delete the value at a given path
+     *
+     * @since 1.5.0
+     *
+     * @param array $path        Array of path elements
+     * @param bool  $deleteEmpty Whether to delete empty containers
+     */
+    public function deleteValue(array $path, bool $deleteEmpty = false)
+    {
+        $target = $this->document;
+        $containerPath = [];
+
+        // follow path to conclusion or return early if not found
+        while (count($path) > 1) {
+            $element = $containerPath[] = array_shift($path);
+            if (is_array($target) && array_key_exists($element, $target)) {
+                $target = $target[$element];
+            } elseif (is_object($target) && property_exists($target, $element)) {
+                $target = $target->$element;
+            } else {
+                return;
+            }
+        }
+
+        // unset the child element
+        if (is_array($target)) {
+            unset($target[array_shift($path)]);
+        } elseif (is_object($target)) {
+            unset($target->{array_shift($path)});
+        }
+
+        // recurse to delete empty containers
+        if ($deleteEmpty && !count((array)$target)) {
+            $this->deleteValue($containerPath, $deleteEmpty);
+        }
+    }
+
+    /**
      * Promote container type as necessary to hold a child key
      *
      * @since 1.5.0
