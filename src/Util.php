@@ -52,7 +52,7 @@ abstract class Util
     }
 
     /**
-     * Recursively compare two values for equality
+     * Compare two values for equality
      *
      * @since 1.4.0 (formerly JsonBrowser::compare())
      *
@@ -70,17 +70,7 @@ abstract class Util
 
         // recursive object comparison
         if (is_object($valueOne) && is_object($valueTwo)) {
-            foreach ($valueOne as $pName => $pValue) {
-                if (!property_exists($valueTwo, $pName) || !self::compare($valueOne->$pName, $valueTwo->$pName)) {
-                    return false;
-                }
-            }
-            foreach ($valueTwo as $pName => $pValue) {
-                if (!property_exists($valueOne, $pName)) {
-                    return false;
-                }
-            }
-            return true;
+            return self::compareObjects($valueOne, $valueTwo);
         }
 
         // compare numeric types loosely, but don't accept numeric strings
@@ -90,5 +80,29 @@ abstract class Util
 
         // strict equality check failed
         return false;
+    }
+
+    /**
+     * Recursively compare two objects for equality
+     *
+     * @since 1.5.0
+     *
+     * @param \StdClass $valueOne
+     * @param \StdClass $valueTwo
+     * @return bool
+     */
+    private static function compareObjects(\StdClass $valueOne, \StdClass $valueTwo)
+    {
+        foreach ($valueOne as $pName => $pValue) {
+            if (!property_exists($valueTwo, $pName) || !self::compare($valueOne->$pName, $valueTwo->$pName)) {
+                return false;
+            }
+        }
+        foreach ($valueTwo as $pName => $pValue) {
+            if (!property_exists($valueOne, $pName)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
