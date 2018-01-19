@@ -181,6 +181,10 @@ class JsonBrowser implements \IteratorAggregate
         $node = clone $this;
         $node->path = Util::decodePointer($path);
 
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$node->nodeExists()) {
+            throw new Exception(self::ERR_UNKNOWN_TARGET, 'Target node is unknown: %s', $path);
+        }
+
         return $node;
     }
 
@@ -414,7 +418,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function setValueAt(string $path, $value, bool $padSparseArray = false)
     {
-        return $this->getNodeAt($path)->setValue($value, $padSparseArray);
+        return $this->context->setValue(Util::decodePointer($path), $value, $padSparseArray);
     }
 
     /**
