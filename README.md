@@ -55,6 +55,7 @@ $parent = $node->getParent();
 
 // get node value
 $value = $node->getValue();
+$value = $parent->node; // __get() alias method when OPT_GET_VALUE is set
 
 // set node value
 $node->setValue('myValue');
@@ -85,6 +86,14 @@ $path = $node->getPath();
 $json = $node->getJSON();
 
 ```
+
+Configuration Options
+---------------------
+
+| Name                       | Description                                                    |
+|----------------------------|----------------------------------------------------------------|
+| OPT_NONEXISTENT_EXCEPTIONS | Throw an exception when attempting to read a nonexistent value |
+| OPT_GET_VALUE              | Get values, rather than node objects, when using `__get()`     |
 
 Documentation
 -------------
