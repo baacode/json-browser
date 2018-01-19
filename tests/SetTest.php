@@ -73,6 +73,57 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $root->getNodeAt('#/childOne/childTwo/childThree')->setValue(5);
     }
 
+    public function testDeleteRoot()
+    {
+        $root = new JsonBrowser('{}');
+        $root->deleteValue();
+        $this->assertEquals('null', $root->getJSON(0));
+    }
+
+    public function testDeleteChild()
+    {
+        $root = new JsonBrowser(
+            '{"childOne": ["valueOne"], "childTwo": {"childThree": "valueThree"}}',
+            JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS
+        );
+        $childOne = $root->getChild('childOne');
+        $gcOne = $childOne->getChild(0);
+        $childTwo = $root->getChild('childOne');
+        $childThree = $childTwo->getNodeAt('#/childTwo/childThree');
+
+        $this->assertTrue($gcOne->nodeExists());
+        $childOne->setValue('valueOne');
+        $this->assertFalse($gcOne->nodeExists());
+
+        $this->assertTrue($childThree->nodeExists());
+        $childThree->deleteValue();
+        $this->assertFalse($childThree->nodeExists());
+
+        $this->assertTrue($childTwo->nodeExists());
+        $childTwo->deleteValue();
+        $this->assertFalse($childTwo->nodeExists());
+
+        $this->expectException(Exception::class);
+        $childTwo->getValue();
+    }
+
+    public function testDeleteEmptyContainers()
+    {
+        $root = new JsonBrowser('[[[[["valueOne", "valueTwo"]], "valueThree"]]]');
+
+        $root->deleteValueAt('#/0/0/0/0/1', true);
+        $this->assertEquals('[[[[["valueOne"]],"valueThree"]]]', $root->getJSON(0));
+
+        $root->deleteValueAt('#/0/0/0/0/0', false);
+        $this->assertEquals('[[[[[]],"valueThree"]]]', $root->getJSON(0));
+
+        $root->deleteValueAt('#/0/0/0/0', true);
+        $this->assertEquals('[[{"1":"valueThree"}]]', $root->getJSON(0));
+
+        $root->deleteValueAt('#/0/0/1', true);
+        $this->assertEquals('null', $root->getJSON(0));
+    }
+
     public function testRefresh()
     {
         $root = new JsonBrowser('{"childOne": "valueOne"}');
