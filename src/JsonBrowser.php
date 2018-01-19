@@ -377,9 +377,9 @@ class JsonBrowser implements \IteratorAggregate
      * Test whether the document value is equal to a given value
      *
      * Comparisons considered equal:
-     *  - normal strictly-typed equality (===)
-     *  - loosely-typed equality (==) where both values are numeric and are *not* strings
-     *  - any object having the same number and value for all properties, as per the above tests
+     *  - normal strictly-typed equality (===);
+     *  - loosely-typed equality (==) where both values are numeric and are *not* strings;
+     *  - any object having the same number and value for all properties, as per the above tests.
      *
      * @since 1.4.0
      *
