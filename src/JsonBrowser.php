@@ -2,8 +2,6 @@
 
 namespace JsonBrowser;
 
-use Seld\JsonLint\JsonParser;
-
 /**
  * Helper class for working with JSON-encoded data
  *
@@ -37,6 +35,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Invalid container type */
     const ERR_INVALID_CONTAINER_TYPE = 6;
 
+    /** Unknown target */
+    const ERR_UNKNOWN_TARGET = 7;
+
     /** NULL type */
     const TYPE_NULL = 1;
 
@@ -61,23 +62,14 @@ class JsonBrowser implements \IteratorAggregate
     /** Configuration options */
     private $options = 0;
 
-    /** Decoded JSON document */
-    private $document = null;
+    /** Document context */
+    private $context = null;
 
-    /** Root browser node */
+    /** Root node */
     private $root = null;
-
-    /** Parent browser node */
-    private $parent = null;
 
     /** Node path */
     private $path = [];
-
-    /** Node key */
-    private $key = null;
-
-    /** Change generation */
-    private $generation = 0;
 
     /**
      * Create a new instance
@@ -89,30 +81,9 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function __construct(string $json, int $options = 0)
     {
-        // set options
-        $this->options = $options;
-
-        // decode document
-        Exception::wrap(function () use ($json) {
-            try {
-                // decode via json_decode for speed
-                $this->document = json_decode($json);
-                if (json_last_error() != \JSON_ERROR_NONE) {
-                    throw new \Exception(json_last_error_msg(), json_last_error());
-                }
-            } catch (\Throwable $e) {
-                // if decoding fails, then lint using JsonParser
-                $parser = new JsonParser();
-                if (!is_null($parserException = $parser->lint($json))) {
-                    throw $parserException;
-                }
-                // if JsonParser can decode successfully, but json_decode() cannot, complain loudly
-                throw new \Exception('Unknown JSON decoding error'); // @codeCoverageIgnore
-            }
-        }, self::ERR_DECODING_ERROR, 'Unable to decode JSON data: %s');
-
-        // set root node
         $this->root = $this;
+        $this->options = $options;
+        $this->context = new Context($this, $json, $options);
     }
 
     /**
@@ -125,16 +96,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function childExists($key) : bool
     {
-        $documentValue = $this->getValue();
-
-        if (is_array($documentValue)) {
-            return array_key_exists($key, $documentValue);
-        } elseif (is_object($documentValue)) {
-            return property_exists($documentValue, $key);
-        }
-
-        // non-container types cannot contain children
-        return false;
+        return $this->context->valueExists(array_merge($this->path, [$key]));
     }
 
     /**
@@ -147,18 +109,12 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getChild($key) : self
     {
-        $documentValue = $this->getValue();
-
-        if (!$this->childExists($key) && ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS)) {
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$this->childExists($key)) {
             throw new Exception(self::ERR_UNKNOWN_CHILD, 'Unknown child: %s', $key);
         }
 
         $child = clone $this;
-        $child->parent = $this;
-        $child->path[] = strtr($key, ['~' => '~0', '/' => '~1', '%' => '%25']);
-        $child->key = $key;
-        $child->document = null;
-        $child->generation--;
+        $child->path[] = $key;
 
         return $child;
     }
@@ -197,7 +153,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getKey()
     {
-        return $this->key;
+        return count($this->path) ? end($this->path) : null;
     }
 
     /**
@@ -210,21 +166,8 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getNodeAt(string $path) : self
     {
-        // fast-path for references to the root node
-        if ($path == '#/') {
-            return $this->root;
-        }
-
-        // decode pointer
-        $path = array_map(function ($element) {
-            return strtr($element, ['%25' => '%', '~1' => '/', '~0' => '~']);
-        }, explode('/', substr($path, 2)));
-
-        // walk path from root
-        $node = $this->root;
-        while (count($path)) {
-            $node = $node->getChild(array_shift($path));
-        }
+        $node = clone $this;
+        $node->path = Util::decodePointer($path);
 
         return $node;
     }
@@ -238,7 +181,15 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getParent()
     {
-        return $this->parent;
+        // the root node has no parent, so return null
+        if (!count($this->path)) {
+            return null;
+        }
+        
+        $parent = clone $this;
+        array_pop($parent->path);
+
+        return $parent;
     }
 
     /**
@@ -250,7 +201,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getPath() : string
     {
-        return '#/' . implode('/', $this->path);
+        return Util::encodePointer($this->path);
     }
 
     /**
@@ -275,14 +226,17 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getSibling($key) : self
     {
-        if (!$this->siblingExists($key)) {
-            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
-                throw new Exception(self::ERR_UNKNOWN_SIBLING, 'Unknown sibling: %s', $key);
-            }
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$this->siblingExists($key)) {
+            throw new Exception(self::ERR_UNKNOWN_SIBLING, 'Unknown sibling: %s', $key);
         }
 
-        return $this->parent->getChild($key);
+        $sibling = clone $this;
+        array_pop($sibling->path);
+        $sibling->path[] = $key;
+
+        return $sibling;
     }
+
 
     /**
      * Get the document value type
@@ -335,8 +289,13 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getValue()
     {
-        $this->refresh();
-        return $this->document;
+        $value = $this->context->getValue($this->path, $exists);
+        
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
+            throw new Exception(self::ERR_UNKNOWN_SELF, 'Current node is unknown: %s', $this->getPath());
+        }
+
+        return $value;
     }
 
     /**
@@ -349,7 +308,13 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getValueAt(string $path)
     {
-        return $this->getNodeAt($path)->getValue();
+        $value = $this->context->getValue(Util::decodePointer($path), $exists);
+        
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
+            throw new Exception(self::ERR_UNKNOWN_TARGET, 'Target node is unknown: %s', $path);
+        }
+
+        return $value;
     }
 
     /**
@@ -368,9 +333,9 @@ class JsonBrowser implements \IteratorAggregate
         }
 
         // test equality
-        return $this->compare($this->getValue(), $value);
+        return Util::compare($this->getValue(), $value);
     }
-
+    
     /**
      * Test whether the document value is *not* of a given type
      *
@@ -393,7 +358,7 @@ class JsonBrowser implements \IteratorAggregate
      * @param int $all Whether to require all types, or just one
      * @return bool Whether the type matches
      */
-    public function isType(int $types, bool $all = false)
+    public function isType(int $types, bool $all = false) : bool
     {
         if ($all) {
             return ($this->getType() & $types) == $types;
@@ -410,12 +375,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function nodeExists() : bool
     {
-        // the root node always exists
-        if ($this === $this->root) {
-            return true;
-        }
-
-        return $this->parent->childExists($this->getKey());
+        return $this->context->valueExists($this->path);
     }
 
     /**
@@ -428,38 +388,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function setValue($value, bool $padSparseArray = false)
     {
-        // get node
-        $node = &$this->root->document;
-        foreach ($this->path as $element) {
-            // promote null to array
-            if (is_null($node)) {
-                $node = [];
-            }
-
-            // promote array to object if element is not an integer array key
-            if (is_array($node) && (!is_numeric($element) || $element != floor($element))) {
-                $node = (object)$node;
-            }
-
-            // step into child node
-            if (is_array($node)) {
-                // pad array with nulls to desired index
-                if ($padSparseArray) {
-                    for ($i = 0; $i < $element; $i++) {
-                        $node[$i] = null;
-                    }
-                }
-                $node = &$node[$element];
-            } elseif (is_object($node)) {
-                $node = &$node->$element;
-            } else {
-                throw new Exception(self::ERR_INVALID_CONTAINER_TYPE, 'Invalid container type: %s', gettype($node));
-            }
-        }
-
-        // set value
-        $node = $value;
-        $this->root->generation++;
+        $this->context->setValue($this->path, $value, $padSparseArray);
     }
 
     /**
@@ -487,83 +416,10 @@ class JsonBrowser implements \IteratorAggregate
     public function siblingExists($key) : bool
     {
         // root nodes have no siblings
-        if (is_null($this->parent)) {
+        if (!count($this->path)) {
             return false;
         }
 
-        return $this->parent->childExists($key);
-    }
-
-    /**
-     * Recursively compare two values for equality
-     *
-     * @since 1.4.0
-     *
-     * @param mixed $valueOne
-     * @param mixed $valueTwo
-     * @return bool
-     */
-    private function compare($valueOne, $valueTwo) : bool
-    {
-
-        // fast-path for type-equal (or instance-equal) values
-        if ($valueOne === $valueTwo) {
-            return true;
-        }
-
-        // recursive object comparison
-        if (is_object($valueOne) && is_object($valueTwo)) {
-            foreach ($valueOne as $pName => $pValue) {
-                if (!property_exists($valueTwo, $pName) || !$this->compare($valueOne->$pName, $valueTwo->$pName)) {
-                    return false;
-                }
-            }
-            foreach ($valueTwo as $pName => $pValue) {
-                if (!property_exists($valueOne, $pName)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // compare numeric types loosely, but don't accept numeric strings
-        if (!is_string($valueOne) && !is_string($valueTwo) && is_numeric($valueOne) && is_numeric($valueTwo)) {
-            return ($valueOne == $valueTwo);
-        }
-
-        // strict equality check failed
-        return false;
-    }
-
-    /**
-     * Refresh document value to take new changes into account
-     *
-     * @since 1.4.0
-     */
-    private function refresh()
-    {
-        // if there are no changes, or we are the root, then no update is required
-        if ($this->generation == $this->root->generation || $this === $this->root) {
-            return;
-        }
-
-        // refresh parent
-        $this->parent->refresh();
-
-        // refresh self
-        if (!$this->parent->childExists($this->getKey())) {
-            $this->document = null;
-            if ($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) {
-                throw new Exception(self::ERR_UNKNOWN_SELF, 'Current node is unknown: %s', $this->getPath());
-            }
-        } else {
-            $parentValue = $this->parent->getValue();
-            if (is_array($parentValue)) {
-                $this->document = $parentValue[$this->getKey()];
-            } else {
-                $this->document = $parentValue->{$this->getKey()};
-            }
-        }
-        $this->generation = $this->parent->generation;
+        return $this->getParent()->childExists($key);
     }
 }
