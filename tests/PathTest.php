@@ -24,6 +24,14 @@ class PathTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($root, $root->getNodeAt('#/'));
     }
 
+    public function testNodeByPathException()
+    {
+        $root = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+
+        $this->expectException(Exception::class);
+        $root->getNodeAt('#/this/path/does/not/exist');
+    }
+
     public function testValueByPathException()
     {
         $root = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
