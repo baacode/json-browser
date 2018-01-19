@@ -43,6 +43,9 @@ $value = $browser->getValueAt('#/childName/grandchildName/4');
 // set arbitrary node value by path
 $browser->setValueAt('#/childName/grandchildName/4', 'myValue')
 
+// delete arbitrary node value by path
+$browser->deleteValueAt('#/childName/grandchildName/4')
+
 // get root node
 $root = $node->getRoot();
 
@@ -54,6 +57,9 @@ $value = $node->getValue();
 
 // set node value
 $node->setValue('myValue');
+
+// delete node value
+$node->deleteValue();
 
 // get node type
 $type = $node->getType();
