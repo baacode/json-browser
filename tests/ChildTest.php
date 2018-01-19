@@ -75,4 +75,13 @@ class ChildTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($root, $childOne->getParent());
         $this->assertEquals($childOne, $childTwo->getParent());
     }
+
+    public function testGetSet()
+    {
+        $root = new JsonBrowser('{"childOne": "valueOne"}');
+        $this->assertEquals('valueOne', $root->childOne->getValue());
+
+        $root->childTwo = 'valueTwo';
+        $this->assertEquals('{"childOne":"valueOne","childTwo":"valueTwo"}', $root->getJSON(0));
+    }
 }

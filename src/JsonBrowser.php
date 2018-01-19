@@ -87,6 +87,33 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Dynamically get child nodes as object properties
+     *
+     * @since 1.5.0
+     *
+     * @param mixed $key Index key
+     */
+    public function __get($key) : self
+    {
+        return $this->getChild($key);
+    }
+
+    /**
+     * Dynamically set child node values as object properties
+     *
+     * Will set the value on a child node, but will not pad sparse arrays.
+     *
+     * @since 1.5.0
+     *
+     * @param mixed $key Index key
+     * @param mixed $value Value data to set
+     */
+    public function __set($key, $value)
+    {
+        $this->context->setValue(array_merge($this->path, [$key]), $value);
+    }
+
+    /**
      * Check whether a child element exists
      *
      * @since 1.0.0
