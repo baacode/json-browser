@@ -21,6 +21,7 @@ $childExists = $browser->childExists('childName');
 
 // get child node
 $child = $browser->getChild('childName');
+$child = $browser->childName; // dynamic __get() alias
 
 // iterate through child nodes
 foreach ($browser as $childName => $childNode) {
@@ -57,6 +58,7 @@ $value = $node->getValue();
 
 // set node value
 $node->setValue('myValue');
+$parent->node = 'myValue'; // __set() alias method
 
 // delete node value
 $node->deleteValue();
