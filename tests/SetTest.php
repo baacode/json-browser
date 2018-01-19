@@ -124,19 +124,6 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('null', $root->getJSON(0));
     }
 
-    public function testRefresh()
-    {
-        $root = new JsonBrowser('{"childOne": "valueOne"}');
-        $childOne = $root->getChild('childOne');
-
-        $pre = $childOne->getValue();
-        $root->setValueAt('#/childOne', 'valueTwo');
-        $post = $childOne->getValue();
-
-        $this->assertSame('valueOne', $pre);
-        $this->assertSame('valueTwo', $post);
-    }
-
     public function testDeleteChildOfInvalidContainer()
     {
         $browser = new JsonBrowser('"this is a string"');
