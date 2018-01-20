@@ -19,11 +19,11 @@ class Context
     /** Configuration options */
     private $options = 0;
 
-    /** Root JsonBrowser object */
-    private $root = null;
-    
     /** Decoded JSON document */
     private $document = null;
+
+    /** Path to root location in document */
+    private $path = [];
 
     /**
      * Create a new instance
@@ -34,11 +34,8 @@ class Context
      * @param string        $json       JSON-encoded data
      * @param int           $options    Configuration options (bitmask)
      */
-    public function __construct(JsonBrowser $root, string $json, int $options = 0)
+    public function __construct(string $json, int $options = 0)
     {
-        // set root
-        $this->root = $root;
-
         // set options
         $this->options = $options;
 
@@ -60,6 +57,20 @@ class Context
                 throw new \Exception('Unknown JSON decoding error'); // @codeCoverageIgnore
             }
         }, JsonBrowser::ERR_DECODING_ERROR, 'Unable to decode JSON data: %s');
+    }
+
+    /**
+     * Get a new context with the provided path as the root
+     *
+     * @param array $path Array of path elements
+     * @return self New context with $root as the document root
+     */
+    public function getSubtreeContext(array $path) : self
+    {
+        $subtree = clone $this;
+        $subtree->path = array_merge($this->path, $path);
+        
+        return $subtree;
     }
 
     /**
@@ -87,6 +98,7 @@ class Context
      */
     public function getValue(array $path, bool &$exists = null)
     {
+        $path = array_merge($this->path, $path);
         $target = $this->document;
 
         // follow path to conclusion or return null if not found
@@ -117,6 +129,7 @@ class Context
      */
     public function setValue(array $path, $value, bool $padSparseArray = false)
     {
+        $path = array_merge($this->path, $path);
         $target = &$this->document;
 
         // follow path to conclusion and create missing elements
@@ -166,6 +179,7 @@ class Context
      */
     public function deleteValue(array $path, bool $deleteEmpty = false)
     {
+        $path = array_merge($this->path, $path);
         $target = &$this->document;
         $containerPath = [];
 

@@ -68,9 +68,6 @@ class JsonBrowser implements \IteratorAggregate
     /** Document context */
     private $context = null;
 
-    /** Root node */
-    private $root = null;
-
     /** Node path */
     private $path = [];
 
@@ -84,9 +81,8 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function __construct(string $json, int $options = 0)
     {
-        $this->root = $this;
         $this->options = $options;
-        $this->context = new Context($this, $json, $options);
+        $this->context = new Context($json, $options);
     }
 
     /**
@@ -118,6 +114,22 @@ class JsonBrowser implements \IteratorAggregate
     public function __set($key, $value)
     {
         $this->context->setValue(array_merge($this->path, [$key]), $value);
+    }
+
+    /**
+     * Get the current node as a document root
+     *
+     * @since 1.6.0
+     *
+     * @return self A new JsonBrowser instance pointing to the current node
+     */
+    public function asRoot() : self
+    {
+        $root = clone $this;
+        $root->context = $this->context->getSubtreeContext($this->path);
+        $root->path = [];
+
+        return $root;
     }
 
     /**
@@ -276,7 +288,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getRoot() : self
     {
-        return $this->root;
+        return $this->getNodeAt('#/');
     }
 
     /**
