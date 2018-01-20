@@ -4,6 +4,7 @@
     "keywords": ["json", "browser", "helper"],
     "homepage": "https://github.com/baacode/json-browser",
     "type": "library",
+    "license": "ISC",
     "require": {
         "php": "^7.0",
         "ext-json": "*",
@@ -16,7 +17,6 @@
         "sami/sami": "^4.0",
         "roave/security-advisories": "dev-master"
     },
-    "license": "ISC",
     "authors": [{
         "name": "Steve Gilberd",
         "email": "steve@erayd.net"
