@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>JsonBrowser\JsonBrowser | JSON Browser API</title>
+
+            <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/sami.css">
+        <script src="../js/jquery-1.11.1.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/typeahead.min.js"></script>
+        <script src="../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:JsonBrowser_JsonBrowser" data-root-path="../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../index.html">JSON Browser API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../classes.html">Classes</a></li>
+                                            <li><a href="../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../interfaces.html">Interfaces</a></li>
+                    <li><a href="../traits.html">Traits</a></li>
+                    <li><a href="../doc-index.html">Index</a></li>
+                    <li><a href="../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../JsonBrowser.html">JsonBrowser</a></li><li class="backslash">\</li><li>JsonBrowser</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            JsonBrowser
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>JsonBrowser</strong>        implements
+        <a target="_blank" href="http://php.net/IteratorAggregate">IteratorAggregate</a>
+</p>
+
+        
+    
+
+            <div class="description">
+            <p>Helper class for working with JSON-encoded data</p>                                </div>
+    
+    
+            <h2>Constants</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td>OPT_NONEXISTENT_EXCEPTIONS</td>
+                <td class="last">
+                    <p><em>Throw exceptions instead of using NULL for nonexistent children &amp; siblings</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPT_GET_VALUE</td>
+                <td class="last">
+                    <p><em>Get node value instead of JsonBrowser object for __get()</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_DECODING_ERROR</td>
+                <td class="last">
+                    <p><em>Error decoding JSON data</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_UNKNOWN_TYPE</td>
+                <td class="last">
+                    <p><em>Encountered an unknown type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_UNKNOWN_CHILD</td>
+                <td class="last">
+                    <p><em>Unknown child</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_UNKNOWN_SIBLING</td>
+                <td class="last">
+                    <p><em>Unknown sibling</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_UNKNOWN_SELF</td>
+                <td class="last">
+                    <p><em>Unknown self</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_INVALID_CONTAINER_TYPE</td>
+                <td class="last">
+                    <p><em>Invalid container type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ERR_UNKNOWN_TARGET</td>
+                <td class="last">
+                    <p><em>Unknown target</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_NULL</td>
+                <td class="last">
+                    <p><em>NULL type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_BOOLEAN</td>
+                <td class="last">
+                    <p><em>Boolean type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_STRING</td>
+                <td class="last">
+                    <p><em>String type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_NUMBER</td>
+                <td class="last">
+                    <p><em>Number type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_INTEGER</td>
+                <td class="last">
+                    <p><em>Integer type (subset of TYPE_NUMBER)</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_ARRAY</td>
+                <td class="last">
+                    <p><em>Array type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_OBJECT</td>
+                <td class="last">
+                    <p><em>Object type</em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(int $options = 0)
+        
+                                            <p>Create a new instance</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___get">__get</a>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $key)
+        
+                                            <p>Dynamically get child nodes or values as object properties</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___set">__set</a>(mixed $key, mixed $value)
+        
+                                            <p>Dynamically set child node values as object properties</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_asRoot">asRoot</a>()
+        
+                                            <p>Get the current node as a document root</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_attach">attach</a>(mixed $document)
+        
+                                            <p>Attach to an existing decoded document</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_childExists">childExists</a>(mixed $key)
+        
+                                            <p>Check whether a child element exists</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteValue">deleteValue</a>(bool $deleteEmpty = false)
+        
+                                            <p>Delete the current node value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_deleteValueAt">deleteValueAt</a>(string $path, bool $deleteEmpty = false)
+        
+                                            <p>Delete the value at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getChild">getChild</a>(mixed $key)
+        
+                                            <p>Get a child node</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/Iterator.html"><abbr title="JsonBrowser\Iterator">Iterator</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getIterator">getIterator</a>()
+        
+                                            <p>Get an iterator handle</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getJSON">getJSON</a>(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
+        
+                                            <p>Get the JSON source for the current node</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getKey">getKey</a>()
+        
+                                            <p>Get the node index key (i.e. the child name within the parent node)</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getNodeAt">getNodeAt</a>(string $path)
+        
+                                            <p>Get the node at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getParent">getParent</a>()
+        
+                                            <p>Get parent node</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPath">getPath</a>()
+        
+                                            <p>Get the node path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getRoot">getRoot</a>()
+        
+                                            <p>Get root node</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSibling">getSibling</a>(mixed $key)
+        
+                                            <p>Get a sibling node</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getType">getType</a>()
+        
+                                            <p>Get the document value type</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getValue">getValue</a>()
+        
+                                            <p>Get the node value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getValueAt">getValueAt</a>(string $path)
+        
+                                            <p>Get the value at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isEqualTo">isEqualTo</a>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $value)
+        
+                                            <p>Test whether the document value is equal to a given value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isNotType">isNotType</a>(int $types)
+        
+                                            <p>Test whether the document value is <em>not</em> of a given type</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isType">isType</a>(int $types, bool $all = false)
+        
+                                            <p>Test whether the document value is of a given type</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadJSON">loadJSON</a>(string $json)
+        
+                                            <p>Load document from a JSON string</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_nodeExists">nodeExists</a>()
+        
+                                            <p>Check whether the current node exists in the parent document</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setValue">setValue</a>(mixed $value, bool $padSparseArray = false)
+        
+                                            <p>Set the node value</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setValueAt">setValueAt</a>(string $path, mixed $value, bool $padSparseArray = false)
+        
+                                            <p>Set the value at a given path</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    bool
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_siblingExists">siblingExists</a>(mixed $key)
+        
+                                            <p>Check whether a sibling exists</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 83</div>
+        <code>                    
+    <strong>__construct</strong>(int $options = 0)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Create a new instance</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$options</td>
+                <td>Configuration options (bitmask)</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___get">
+        <div class="location">at         line 97</div>
+        <code>                    
+    <strong>__get</strong>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Dynamically get child nodes or values as object properties</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___set">
+        <div class="location">at         line 116</div>
+        <code>                    
+    <strong>__set</strong>(mixed $key, mixed $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Dynamically set child node values as object properties</p>                    <p>Will set the value on a child node, but will not pad sparse arrays.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>Value data to set</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_asRoot">
+        <div class="location">at         line 128</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+    <strong>asRoot</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the current node as a document root</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
+            <td>A new JsonBrowser instance pointing to the current node</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_attach">
+        <div class="location">at         line 144</div>
+        <code>                    
+    <strong>attach</strong>(mixed $document)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Attach to an existing decoded document</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$document</td>
+                <td>Reference to the target document</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_childExists">
+        <div class="location">at         line 157</div>
+        <code>                    bool
+    <strong>childExists</strong>(mixed $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Check whether a child element exists</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the given child exists</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteValue">
+        <div class="location">at         line 169</div>
+        <code>                    
+    <strong>deleteValue</strong>(bool $deleteEmpty = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Delete the current node value</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>bool</td>
+                <td>$deleteEmpty</td>
+                <td>Whether to delete empty containers</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_deleteValueAt">
+        <div class="location">at         line 182</div>
+        <code>                    
+    <strong>deleteValueAt</strong>(string $path, bool $deleteEmpty = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Delete the value at a given path</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>JSON pointer to the node that should be deleted</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$deleteEmpty</td>
+                <td>Whether to delete empty containers</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getChild">
+        <div class="location">at         line 195</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+    <strong>getChild</strong>(mixed $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a child node</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
+            <td>Child node</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIterator">
+        <div class="location">at         line 214</div>
+        <code>                    <a href="../JsonBrowser/Iterator.html"><abbr title="JsonBrowser\Iterator">Iterator</abbr></a>
+    <strong>getIterator</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get an iterator handle</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/Iterator.html"><abbr title="JsonBrowser\Iterator">Iterator</abbr></a></td>
+            <td>Iterator instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getJSON">
+        <div class="location">at         line 227</div>
+        <code>                    string
+    <strong>getJSON</strong>(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the JSON source for the current node</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$options</td>
+                <td>Bitwise options for json_encode()</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>Encoded JSON string</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getKey">
+        <div class="location">at         line 239</div>
+        <code>                    mixed
+    <strong>getKey</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the node index key (i.e. the child name within the parent node)</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>Index key within parent node, or null if this is the root</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getNodeAt">
+        <div class="location">at         line 252</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+    <strong>getNodeAt</strong>(string $path)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the node at a given path</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>JSON pointer to the requested node</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
+            <td>Node at the target path</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getParent">
+        <div class="location">at         line 271</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|null
+    <strong>getParent</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get parent node</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|null</td>
+            <td>Parent node</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPath">
+        <div class="location">at         line 291</div>
+        <code>                    string
+    <strong>getPath</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the node path</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>The node path as a JSON pointer</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getRoot">
+        <div class="location">at         line 303</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+    <strong>getRoot</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get root node</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
+            <td>Root node</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSibling">
+        <div class="location">at         line 316</div>
+        <code>                    <a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>
+    <strong>getSibling</strong>(mixed $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get a sibling node</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a></td>
+            <td>Sibling node</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getType">
+        <div class="location">at         line 337</div>
+        <code>                    int
+    <strong>getType</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the document value type</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>Bitmask list of applicable types (See JsonBrowser::TYPE_* constants)</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getValue">
+        <div class="location">at         line 379</div>
+        <code>                    mixed
+    <strong>getValue</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the node value</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>Node value</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getValueAt">
+        <div class="location">at         line 398</div>
+        <code>                    mixed
+    <strong>getValueAt</strong>(string $path)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Get the value at a given path</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>JSON pointer to the requested node</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>mixed</td>
+            <td>Value at the given path</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isEqualTo">
+        <div class="location">at         line 422</div>
+        <code>                    bool
+    <strong>isEqualTo</strong>(<a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Test whether the document value is equal to a given value</p>                    <p>Comparisons considered equal:
+ - normal strictly-typed equality (===);
+ - loosely-typed equality (==) where both values are numeric and are <em>not</em> strings;
+ - any object having the same number and value for all properties, as per the above tests.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../JsonBrowser/JsonBrowser.html"><abbr title="JsonBrowser\JsonBrowser">JsonBrowser</abbr></a>|mixed</td>
+                <td>$value</td>
+                <td>Value to compare against</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the node value is equal to $value</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isNotType">
+        <div class="location">at         line 441</div>
+        <code>                    bool
+    <strong>isNotType</strong>(int $types)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Test whether the document value is <em>not</em> of a given type</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$types</td>
+                <td>Types to test for</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the type does not match</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isType">
+        <div class="location">at         line 455</div>
+        <code>                    bool
+    <strong>isType</strong>(int $types, bool $all = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Test whether the document value is of a given type</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$types</td>
+                <td>Types to test for</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$all</td>
+                <td>Whether to require all types, or just one</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the type matches</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadJSON">
+        <div class="location">at         line 470</div>
+        <code>                    
+    <strong>loadJSON</strong>(string $json)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Load document from a JSON string</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$json</td>
+                <td>JSON-encoded document</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_nodeExists">
+        <div class="location">at         line 503</div>
+        <code>                    bool
+    <strong>nodeExists</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Check whether the current node exists in the parent document</p>                                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the current node exists</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setValue">
+        <div class="location">at         line 516</div>
+        <code>                    
+    <strong>setValue</strong>(mixed $value, bool $padSparseArray = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set the node value</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>Data to set</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$padSparseArray</td>
+                <td>Whether to left-pad sparse arrays with null values</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setValueAt">
+        <div class="location">at         line 530</div>
+        <code>                    
+    <strong>setValueAt</strong>(string $path, mixed $value, bool $padSparseArray = false)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set the value at a given path</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>JSON pointer to the requested node</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>Data to set</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$padSparseArray</td>
+                <td>Whether to left-pad sparse arrays with null values</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_siblingExists">
+        <div class="location">at         line 543</div>
+        <code>                    bool
+    <strong>siblingExists</strong>(mixed $key)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Check whether a sibling exists</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>mixed</td>
+                <td>$key</td>
+                <td>Index key</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>bool</td>
+            <td>Whether the sibling exists</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
