@@ -5,6 +5,7 @@ namespace JsonBrowser;
 /**
  * Static utility methods
  *
+ * @internal
  * @since 1.5.0
  *
  * @package baacode/json-browser

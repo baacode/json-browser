@@ -7,6 +7,7 @@ use Seld\JsonLint\JsonParser;
 /**
  * Document context
  *
+ * @internal
  * @since 1.5.0
  *
  * @package baacode/json-browser
