@@ -10,7 +10,7 @@ use Seld\JsonLint\JsonParser;
  * @since 1.5.0
  *
  * @package baacode/json-browser
- * @copyright (c) 2017-2018 Erayd LTD
+ * @copyright (c) 2017-2018-2018 Erayd LTD
  * @author Steve Gilberd <steve@erayd.net>
  * @license ISC
  */
