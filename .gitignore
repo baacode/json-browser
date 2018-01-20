@@ -1,4 +1,3 @@
 /docs/.cache
 /vendor
-/composer.lock
 /coverage.xml

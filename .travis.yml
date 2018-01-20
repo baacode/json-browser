@@ -14,8 +14,8 @@ matrix:
           env: WITH_COVERAGE=true
         - php: nightly
 before_script:
-    - composer selfupdate
-    - mkdir -p build/logs
+    - mkdir -p ./build/logs
+    - rm ./composer.lock
 script:
     - travis_retry composer install --no-interaction
     - composer style-check
