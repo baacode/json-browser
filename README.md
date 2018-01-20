@@ -14,7 +14,13 @@ Usage
 use JsonBrowser\JsonBrowser;
 
 // returns a new JsonBrowser, or throws an exception if the JSON syntax is invalid
-$browser = new JsonBrowser($json);
+$browser = new JsonBrowser();
+
+// load document as JSON string
+$browser->loadJSON($json);
+
+// attach to existing document
+$browser->attach($document);
 
 // check for child node
 $childExists = $browser->childExists('childName');
