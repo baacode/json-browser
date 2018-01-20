@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<ruleset name="Erayd Default">
+    <description>Erayd LTD default PHP coding standards</description>
+
+    <file>sami.php</file>
+    <file>src</file>
+    <file>tests</file>
+
+    <!-- Set tab width -->
+    <arg name="tab-width" value="4" />
+
+    <!-- Include the entire PSR-2 standard -->
+    <rule ref="PSR2">
+        <properties>
+            <property name="indent" value="4" />
+            <property name="requireSpacesAfterOpen" value="0" />
+            <property name="requireSpacesBeforeOpen" value="0" />
+        </properties>
+    </rule>
+
+    <!-- Use UNIX-style line endings -->
+    <rule ref="Generic.Files.LineEndings" />
+
+    <!-- Check line length -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+            <property name="absoluteLineLimit" value="160" />
+            <property name="ignoreComments" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Align multiple assignments on the assignment operator -->
+    <rule ref="Generic.Formatting.MultipleStatementAlignment" />
+
+    <!-- Cyclomatic complexity -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="15" />
+            <property name="absoluteComplexity" value="30" />
+        </properties>
+    </rule>
+
+    <!-- CamelCase function / method names -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+        <properties>
+            <property name="strict" value="false" />
+        </properties>
+    </rule>
+
+    <!-- Don't allow deprecated function aliases -->
+    <rule ref="Generic.PHP.ForbiddenFunctions" />
+
+    <!-- Disallow redundant concatenation -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <properties>
+            <property name="allowMultiline" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Don't indent using tabs -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="tabIndent" value="false" />
+        </properties>
+    </rule>
+
+    <!-- Multi-line conditions should be indented -->
+    <rule ref="PEAR.ControlStructures.MultiLineCondition" />
+
+    <!-- Allow multi-line function call signatures to have more than one arg per line -->
+    <rule ref="PEAR.Functions.FunctionCallSignature">
+        <properties>
+            <property name="allowMultipleArguments" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Warn for commented-out code -->
+    <rule ref="Squiz.PHP.CommentedOutCode" />
+
+    <!-- Concatenation spacing -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1" />
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Allow splitting object references across lines -->
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+
+    <!-- Allow splitting operator arguments across lines -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+</ruleset>
