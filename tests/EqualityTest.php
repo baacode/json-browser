@@ -5,6 +5,14 @@ namespace JsonBrowser\Tests;
 use JsonBrowser\JsonBrowser;
 use JsonBrowser\Exception;
 
+/*
+ * Test equality checks
+ *
+ * @package baacode/json-browser
+ * @copyright (c) 2017-2018-2018 Erayd LTD
+ * @author Steve Gilberd <steve@erayd.net>
+ * @license ISC
+ */
 class EqualityTest extends \PHPUnit\Framework\TestCase
 {
     public function dataIsEqual() : array

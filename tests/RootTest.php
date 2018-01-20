@@ -5,6 +5,14 @@ namespace JsonBrowser\Tests;
 use JsonBrowser\JsonBrowser;
 use JsonBrowser\Exception;
 
+/*
+ * Test getting and using a node as the root of a subtree
+ *
+ * @package baacode/json-browser
+ * @copyright (c) 2017-2018-2018 Erayd LTD
+ * @author Steve Gilberd <steve@erayd.net>
+ * @license ISC
+ */
 class RootTest extends \PHPUnit\Framework\TestCase
 {
     public function testChangeRoot()

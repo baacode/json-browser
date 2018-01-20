@@ -5,6 +5,14 @@ namespace JsonBrowser\Tests;
 use JsonBrowser\JsonBrowser;
 use JsonBrowser\Exception;
 
+/*
+ * Test type checking and filtering
+ *
+ * @package baacode/json-browser
+ * @copyright (c) 2017-2018-2018 Erayd LTD
+ * @author Steve Gilberd <steve@erayd.net>
+ * @license ISC
+ */
 class TypeTest extends \PHPUnit\Framework\TestCase
 {
     public function dataType() : array
