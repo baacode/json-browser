@@ -17,7 +17,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetRoot()
     {
-        $root = new JsonBrowser('{"childOne": {"childTwo": ["valueThree", "valueFour"]}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": {"childTwo": ["valueThree", "valueFour"]}}');
 
         $root->setValue(5);
 
@@ -27,7 +28,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testSetChild()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne", "childTwo": ["valueThree", "valueFour"]}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne", "childTwo": ["valueThree", "valueFour"]}');
         $childOne = $root->getChild('childOne');
         $childFour = $root->getChild('childTwo')->getChild(1);
         $childFive = $root->getChild('childTwo')->getChild(2);
@@ -50,7 +52,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testPromote()
     {
-        $root = new JsonBrowser('{"childOne": null, "childTwo": []}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": null, "childTwo": []}');
         $gcOne = $root->getChild('childOne')->getChild('gcOne');
         $gcTwo = $root->getChild('childTwo')->getChild('gcTwo');
         $gcThree = $root->getChild('childThree')->getChild(3);
@@ -75,7 +78,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidContainer()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne"}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne"}');
 
         $this->expectException(Exception::class);
         $root->getNodeAt('#/childOne/childTwo/childThree')->setValue(5);
@@ -83,17 +87,15 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteRoot()
     {
-        $root = new JsonBrowser('{}');
+        $root = new JsonBrowser();
         $root->deleteValue();
         $this->assertEquals('null', $root->getJSON(0));
     }
 
     public function testDeleteChild()
     {
-        $root = new JsonBrowser(
-            '{"childOne": ["valueOne"], "childTwo": {"childThree": "valueThree"}}',
-            JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS
-        );
+        $root = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root->loadJSON('{"childOne": ["valueOne"], "childTwo": {"childThree": "valueThree"}}');
         $childOne = $root->getChild('childOne');
         $gcOne = $childOne->getChild(0);
         $childTwo = $root->getChild('childOne');
@@ -117,7 +119,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteEmptyContainers()
     {
-        $root = new JsonBrowser('[[[[["valueOne", "valueTwo"]], "valueThree"]]]');
+        $root = new JsonBrowser();
+        $root->loadJSON('[[[[["valueOne", "valueTwo"]], "valueThree"]]]');
 
         $root->deleteValueAt('#/0/0/0/0/1', true);
         $this->assertEquals('[[[[["valueOne"]],"valueThree"]]]', $root->getJSON(0));
@@ -134,7 +137,8 @@ class SetTest extends \PHPUnit\Framework\TestCase
 
     public function testDeleteChildOfInvalidContainer()
     {
-        $browser = new JsonBrowser('"this is a string"');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('"this is a string"');
         $browser->deleteValueAt('#/non/existent/path');
         $this->assertEquals('"this is a string"', $browser->getJSON());
     }

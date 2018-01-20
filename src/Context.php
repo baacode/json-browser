@@ -2,8 +2,6 @@
 
 namespace JsonBrowser;
 
-use Seld\JsonLint\JsonParser;
-
 /**
  * Document context
  *
@@ -31,33 +29,13 @@ class Context
      *
      * @since 1.5.0
      *
-     * @param JsonBrowser   $root       JsonBrowser for root node
-     * @param string        $json       JSON-encoded data
+     * @param mixed         $document   Reference to the target document
      * @param int           $options    Configuration options (bitmask)
      */
-    public function __construct(string $json, int $options = 0)
+    public function __construct(&$document, int $options = 0)
     {
-        // set options
+        $this->document = &$document;
         $this->options = $options;
-
-        // decode document
-        Exception::wrap(function () use ($json) {
-            try {
-                // decode via json_decode for speed
-                $this->document = json_decode($json);
-                if (json_last_error() != \JSON_ERROR_NONE) {
-                    throw new \Exception(json_last_error_msg(), json_last_error());
-                }
-            } catch (\Throwable $e) {
-                // if decoding fails, then lint using JsonParser
-                $parser = new JsonParser();
-                if (!is_null($parserException = $parser->lint($json))) {
-                    throw $parserException;
-                }
-                // if JsonParser can decode successfully, but json_decode() cannot, complain loudly
-                throw new \Exception('Unknown JSON decoding error'); // @codeCoverageIgnore
-            }
-        }, JsonBrowser::ERR_DECODING_ERROR, 'Unable to decode JSON data: %s');
     }
 
     /**

@@ -17,7 +17,8 @@ class RootTest extends \PHPUnit\Framework\TestCase
 {
     public function testChangeRoot()
     {
-        $root = new JsonBrowser('{"childOne": {"childTwo": "valueTwo"}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": {"childTwo": "valueTwo"}}');
         $childOne = $root->getChild('childOne')->asRoot();
 
         $this->assertEquals('{"childTwo":"valueTwo"}', $childOne->getJSON(0));

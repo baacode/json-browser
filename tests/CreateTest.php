@@ -41,7 +41,8 @@ class CreateTest extends \PHPUnit\Framework\TestCase
             $this->expectException(Exception::class);
         }
 
-        $browser = new JsonBrowser($json);
+        $browser = new JsonBrowser();
+        $browser->loadJSON($json);
         $this->assertInstanceOf(JsonBrowser::class, $browser);
 
         if ($expectSuccess) {
@@ -51,7 +52,8 @@ class CreateTest extends \PHPUnit\Framework\TestCase
 
     public function testExists()
     {
-        $browser = new JsonBrowser('{"propertyOne": {"propertyTwo": "valueTwo"}}');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('{"propertyOne": {"propertyTwo": "valueTwo"}}');
 
         $this->assertTrue($browser->nodeExists());
         $this->assertTrue($browser->getNodeAt('#/propertyOne')->nodeExists());

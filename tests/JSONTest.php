@@ -17,7 +17,8 @@ class JSONTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetJSON()
     {
-        $browser = new JsonBrowser('{"childOne": {"childTwo": ["valueThree", "valueFour"]}}');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('{"childOne": {"childTwo": ["valueThree", "valueFour"]}}');
         $childTwo = $browser->getNodeAt('#/childOne/childTwo');
         $this->assertEquals("[\n    \"valueThree\",\n    \"valueFour\"\n]", $childTwo->getJSON());
     }

@@ -34,7 +34,8 @@ class EqualityTest extends \PHPUnit\Framework\TestCase
     /** @dataProvider dataIsEqual */
     public function testIsEqual(string $json, $compareTo, bool $isEqual)
     {
-        $browser = new JsonBrowser($json);
+        $browser = new JsonBrowser();
+        $browser->loadJSON($json);
         $this->assertTrue($browser->isEqualTo($browser));
         $this->assertEquals($isEqual, $browser->isEqualTo($compareTo));
     }

@@ -2,6 +2,8 @@
 
 namespace JsonBrowser;
 
+use Seld\JsonLint\JsonParser;
+
 /**
  * Helper class for working with JSON-encoded data
  *
@@ -76,13 +78,13 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.0.0
      *
-     * @param string $json JSON-encoded data
      * @param int $options Configuration options (bitmask)
      */
-    public function __construct(string $json, int $options = 0)
+    public function __construct(int $options = 0)
     {
+        $defaultDocument = null;
         $this->options = $options;
-        $this->context = new Context($json, $options);
+        $this->context = new Context($defaultDocument, $options);
     }
 
     /**
@@ -119,7 +121,7 @@ class JsonBrowser implements \IteratorAggregate
     /**
      * Get the current node as a document root
      *
-     * @since 1.6.0
+     * @since 2.0.0
      *
      * @return self A new JsonBrowser instance pointing to the current node
      */
@@ -130,6 +132,18 @@ class JsonBrowser implements \IteratorAggregate
         $root->path = [];
 
         return $root;
+    }
+
+    /**
+     * Attach to an existing decoded document
+     *
+     * @since 2.0.0
+     *
+     * @param mixed $document Reference to the target document
+     */
+    public function attach(&$document)
+    {
+        $this->context = new Context($document, $this->options);
     }
 
     /**
@@ -444,6 +458,39 @@ class JsonBrowser implements \IteratorAggregate
             return ($this->getType() & $types) == $types;
         }
         return (bool)($this->getType() & $types);
+    }
+
+    /**
+     * Load document from a JSON string
+     *
+     * @since 2.0.0
+     *
+     * @param string $json JSON-encoded document
+     */
+    public function loadJSON(string $json)
+    {
+        $document = null;
+
+        // decode document
+        Exception::wrap(function () use ($json, &$document) {
+            try {
+                // decode via json_decode for speed
+                $document = json_decode($json);
+                if (json_last_error() != \JSON_ERROR_NONE) {
+                    throw new \Exception(json_last_error_msg(), json_last_error());
+                }
+            } catch (\Throwable $e) {
+                // if decoding fails, then lint using JsonParser
+                $parser = new JsonParser();
+                if (!is_null($parserException = $parser->lint($json))) {
+                    throw $parserException;
+                }
+                // if JsonParser can decode successfully, but json_decode() cannot, complain loudly
+                throw new \Exception('Unknown JSON decoding error'); // @codeCoverageIgnore
+            }
+        }, JsonBrowser::ERR_DECODING_ERROR, 'Unable to decode JSON data: %s');
+
+        $this->attach($document);
     }
 
     /**

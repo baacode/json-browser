@@ -33,7 +33,8 @@ class TypeTest extends \PHPUnit\Framework\TestCase
     /** @dataProvider dataType */
     public function testType(string $json, int $type)
     {
-        $browser = new JsonBrowser($json);
+        $browser = new JsonBrowser();
+        $browser->loadJSON($json);
         $this->assertEquals($type, $browser->getType());
     }
 
@@ -62,13 +63,15 @@ class TypeTest extends \PHPUnit\Framework\TestCase
     /** @dataProvider dataIsType */
     public function testIsType(string $json, int $type, bool $all, bool $isMatch)
     {
-        $browser = new JsonBrowser($json);
+        $browser = new JsonBrowser();
+        $browser->loadJSON($json);
         $this->assertEquals($isMatch, $browser->isType($type, $all));
     }
 
     public function testIsNotType()
     {
-        $browser = new JsonBrowser('1.000000001');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('1.000000001');
         $this->assertTrue($browser->isNotType(JsonBrowser::TYPE_INTEGER));
     }
 }

@@ -17,7 +17,8 @@ class IteratorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmpty()
     {
-        $browser = new JsonBrowser('"notAContainer"');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('"notAContainer"');
 
         foreach ($browser as $child) {
             $this->assertTrue(false); // should never execute
@@ -27,7 +28,8 @@ class IteratorTest extends \PHPUnit\Framework\TestCase
 
     public function testArray()
     {
-        $browser = new JsonBrowser('["valueOne", "valueTwo"]');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('["valueOne", "valueTwo"]');
         $count = 0;
         foreach ($browser as $key => $child) {
             $this->assertEquals($count++, $key);
@@ -43,7 +45,8 @@ class IteratorTest extends \PHPUnit\Framework\TestCase
 
     public function testObject()
     {
-        $browser = new JsonBrowser('{"childOne": "valueOne", "childTwo": {"childThree": "valueThree"}}');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('{"childOne": "valueOne", "childTwo": {"childThree": "valueThree"}}');
 
         $count = 0;
         foreach ($browser as $key => $child) {

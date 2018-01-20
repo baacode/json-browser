@@ -48,10 +48,9 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
 
     public function getExceptionBrowser()
     {
-        return new JsonBrowser(
-            '{"childOne": "valueOne", "childTwo": ["valueTwo"]}',
-            JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS
-        );
+        $browser = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $browser->loadJSON('{"childOne": "valueOne", "childTwo": ["valueTwo"]}');
+        return $browser;
     }
 
     public function testNoExceptionOnValidNode()
@@ -103,7 +102,7 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
 
     public function testNonExistentChildValueException()
     {
-        $browser = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS | JsonBrowser::OPT_GET_VALUE);
+        $browser = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS | JsonBrowser::OPT_GET_VALUE);
         $this->expectException(Exception::class);
         $browser->childThree;
     }

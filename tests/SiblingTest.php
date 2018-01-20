@@ -17,13 +17,14 @@ class SiblingTest extends \PHPUnit\Framework\TestCase
 {
     public function testRootSiblingExists()
     {
-        $root = new JsonBrowser('{}');
+        $root = new JsonBrowser();
         $this->assertFalse($root->siblingExists('siblingOne'));
     }
 
     public function testSiblingExists()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne", "childTwo": "valueTwo"}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne", "childTwo": "valueTwo"}');
         $childOne = $root->getChild('childOne');
         $childTwo = $root->getChild('childTwo');
         $childThree = $root->getChild('childThree');
@@ -36,7 +37,8 @@ class SiblingTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSibling()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne", "childTwo": "valueTwo"}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne", "childTwo": "valueTwo"}');
         $childOne = $root->getChild('childOne');
         $childThree = $childOne->getSibling('childThree');
         $childTwo = $childThree->getSibling('childTwo');
@@ -45,7 +47,8 @@ class SiblingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('valueTwo', $childTwo->getValue());
         $this->assertNull($childThree->getValue());
 
-        $root = new JsonBrowser('{"childOne": "valueOne"}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root->loadJSON('{"childOne": "valueOne"}');
         $childOne = $root->getChild('childOne');
         $this->expectException(Exception::class);
         $childTwo = $childOne->getSibling('childTwo');

@@ -17,7 +17,8 @@ class PathTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetPath()
     {
-        $root = new JsonBrowser('{"child~/One": {"child%Two": ["valueThree", "valueFour"]}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"child~/One": {"child%Two": ["valueThree", "valueFour"]}}');
         $childFour = $root->getChild('child~/One')->getChild('child%Two')->getChild(1);
         $childFive = $root->getChild('child~/One')->getChild(5);
 
@@ -34,7 +35,7 @@ class PathTest extends \PHPUnit\Framework\TestCase
 
     public function testNodeByPathException()
     {
-        $root = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
 
         $this->expectException(Exception::class);
         $root->getNodeAt('#/this/path/does/not/exist');
@@ -42,7 +43,7 @@ class PathTest extends \PHPUnit\Framework\TestCase
 
     public function testValueByPathException()
     {
-        $root = new JsonBrowser('{}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
 
         $this->expectException(Exception::class);
         $root->getValueAt('#/this/path/does/not/exist');

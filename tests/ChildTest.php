@@ -17,30 +17,35 @@ class ChildTest extends \PHPUnit\Framework\TestCase
 {
     public function testChildExists()
     {
-        $browser = new JsonBrowser('{"childOne": "valueOne", "2": "valueTwo"}');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('{"childOne": "valueOne", "2": "valueTwo"}');
         $this->assertTrue($browser->childExists('childOne'));
         $this->assertTrue($browser->childExists('2'));
         $this->assertTrue($browser->childExists(2)); // array_key_exists() allows sloppy typing
         $this->assertFalse($browser->childExists('childThree'));
         $this->assertFalse($browser->childExists(3));
 
-        $browser = new JsonBrowser('["valueOne", "valueTwo"]');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('["valueOne", "valueTwo"]');
         $this->assertTrue($browser->childExists(0));
         $this->assertTrue($browser->childExists('1'));
         $this->assertFalse($browser->childExists(2));
         $this->assertFalse($browser->childExists("childThree"));
 
-        $browser = new JsonBrowser('"stringValue"');
+        $browser = new JsonBrowser();
+        $browser->loadJSON('"stringValue"');
         $this->assertFalse($browser->childExists('childOne'));
     }
 
     public function testGetChild()
     {
-        $array = new JsonBrowser('["valueOne"]');
+        $array = new JsonBrowser();
+        $array->loadJSON('["valueOne"]');
         $this->assertEquals('valueOne', $array->getChild(0)->getValue());
         $this->assertNull($array->getChild(1)->getValue());
 
-        $root = new JsonBrowser('{"childOne": "valueOne", "childTwo": {"childThree": "valueThree"}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne", "childTwo": {"childThree": "valueThree"}}');
         $childOne = $root->getChild('childOne');
         $childTwo = $root->getChild('childTwo');
         $childThree = $childTwo->getChild('childThree');
@@ -56,7 +61,8 @@ class ChildTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($childFour->getValue());
         $this->assertNull($childFive->getValue());
 
-        $root = new JsonBrowser('{"childOne": "valueOne"}', JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root = new JsonBrowser(JsonBrowser::OPT_NONEXISTENT_EXCEPTIONS);
+        $root->loadJSON('{"childOne": "valueOne"}');
         $this->assertEquals('valueOne', $root->getChild('childOne')->getValue());
         $this->expectException(Exception::class);
         $root->getChild('childTwo');
@@ -64,7 +70,8 @@ class ChildTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRoot()
     {
-        $root = new JsonBrowser('{"childOne": {"childTwo": "valueTwo"}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": {"childTwo": "valueTwo"}}');
         $childOne = $root->getChild('childOne');
         $childTwo = $childOne->getChild('childTwo');
 
@@ -75,7 +82,8 @@ class ChildTest extends \PHPUnit\Framework\TestCase
 
     public function testGetParent()
     {
-        $root = new JsonBrowser('{"childOne": {"childTwo": "valueTwo"}}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": {"childTwo": "valueTwo"}}');
         $childOne = $root->getChild('childOne');
         $childTwo = $childOne->getChild('childTwo');
 
@@ -86,7 +94,8 @@ class ChildTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSet()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne"}');
+        $root = new JsonBrowser();
+        $root->loadJSON('{"childOne": "valueOne"}');
         $this->assertEquals('valueOne', $root->childOne->getValue());
 
         $root->childTwo = 'valueTwo';
@@ -95,7 +104,8 @@ class ChildTest extends \PHPUnit\Framework\TestCase
 
     public function testDynamicGetValue()
     {
-        $root = new JsonBrowser('{"childOne": "valueOne"}', JsonBrowser::OPT_GET_VALUE);
+        $root = new JsonBrowser(JsonBrowser::OPT_GET_VALUE);
+        $root->loadJSON('{"childOne": "valueOne"}');
         $this->assertEquals('valueOne', $root->childOne);
     }
 }
