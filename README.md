@@ -85,6 +85,9 @@ $path = $node->getPath();
 // get JSON source for node
 $json = $node->getJSON();
 
+// get a node as the root of a subtree
+$root = $node->asRoot();
+
 ```
 
 Configuration Options
