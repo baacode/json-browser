@@ -23,14 +23,6 @@
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
-                    <form action="#" method="GET">
-                <select id="version-switcher" name="version">
-                                            <option value="../../v1.0.0/index.html" data-version="v1.0.0">v1.0.0</option>
-                                            <option value="../../v1.1.0/index.html" data-version="v1.1.0">v1.1.0</option>
-                                            <option value="../../v1.2.0/index.html" data-version="v1.2.0">v1.2.0</option>
-                                            <option value="../../master/index.html" data-version="master">dev-master</option>
-                                    </select>
-            </form>
                 <script>
             $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
         </script>
@@ -196,7 +188,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(string $json, int $options)
+                    <a href="#method___construct">__construct</a>(string $json, int $options = 0)
         
                                             <p>Create a new instance</p>                </div>
                 <div class="col-md-2"></div>
@@ -331,7 +323,7 @@
                     <h3 id="method___construct">
         <div class="location">at         line 78</div>
         <code>                    
-    <strong>__construct</strong>(string $json, int $options)
+    <strong>__construct</strong>(string $json, int $options = 0)
         </code>
     </h3>
     <div class="details">
