@@ -22,6 +22,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Get node value instead of JsonBrowser object for __get() */
     const OPT_GET_VALUE = 2;
 
+    /** Default config options [none] */
+    const OPT_DEFAULT = 0;
+
     /** Error decoding JSON data */
     const ERR_DECODING_ERROR = 1;
 
@@ -80,7 +83,7 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @param int $options Configuration options (bitmask)
      */
-    public function __construct(int $options = 0)
+    public function __construct(int $options = self::OPT_DEFAULT)
     {
         $defaultDocument = null;
         $this->options = $options;
