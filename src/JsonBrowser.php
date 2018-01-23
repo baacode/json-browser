@@ -545,6 +545,8 @@ class JsonBrowser implements \IteratorAggregate
     /**
      * Set a node annotation
      *
+     * @since 2.1.0
+     *
      * @param string $name  Annotation name
      * @param mixed  $value Annotation value
      * @param bool   $clear Clear existing annotations with the same name
