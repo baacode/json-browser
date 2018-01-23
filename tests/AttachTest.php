@@ -18,8 +18,7 @@ class AttachTest extends \PHPUnit\Framework\TestCase
     public function testAttach()
     {
         $document = json_decode('{"childOne": "valueOne"}');
-        $browser = new JsonBrowser();
-        $browser->attach($document);
+        $browser = new JsonBrowser(JsonBrowser::OPT_DEFAULT, $document);
         $browser->getChild('childOne')->setValue('valueTwo');
         $this->assertEquals('valueTwo', $document->childOne);
     }

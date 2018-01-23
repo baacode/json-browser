@@ -41,8 +41,7 @@ class CreateTest extends \PHPUnit\Framework\TestCase
             $this->expectException(Exception::class);
         }
 
-        $browser = new JsonBrowser();
-        $browser->loadJSON($json);
+        $browser = new JsonBrowser(JsonBrowser::OPT_DECODE, $json);
         $this->assertInstanceOf(JsonBrowser::class, $browser);
 
         if ($expectSuccess) {
