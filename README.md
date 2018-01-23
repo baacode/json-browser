@@ -112,10 +112,12 @@ $annotations = $node->getAnnotations();
 Configuration Options
 ---------------------
 
-| Name                       | Description                                                    |
-|----------------------------|----------------------------------------------------------------|
-| OPT_NONEXISTENT_EXCEPTIONS | Throw an exception when attempting to read a nonexistent value |
-| OPT_GET_VALUE              | Get values, rather than node objects, when using `__get()`     |
+| Name                       | Description                                                        |
+|----------------------------|--------------------------------------------------------------------|
+| OPT_DEFAULT                | Use the default options set (no user-configurable options enabled) |
+| OPT_NONEXISTENT_EXCEPTIONS | Throw an exception when attempting to read a nonexistent value     |
+| OPT_GET_VALUE              | Get values, rather than node objects, when using `__get()`         |
+| OPT_DECODE                 | Decode the document passed to the constructor as a JSON string     |
 
 Documentation
 -------------
