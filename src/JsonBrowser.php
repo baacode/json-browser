@@ -195,6 +195,33 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Get single node annotation
+     *
+     * @since 2.1.0
+     *
+     * @param string $name Annotation name
+     * @return mixed Most recently-set annotation matching the given name, or null if not set
+     */
+    public function getAnnotation(string $name)
+    {
+        $annotations = $this->getAnnotations($name);
+        return count($annotations) ? end($annotations) : null;
+    }
+
+    /**
+     * Get node annotations
+     *
+     * @since 2.1.0
+     *
+     * @param string $name Annotation name
+     * @return array Array of annotations matching $name, or an associative array of all annotations
+     */
+    public function getAnnotations(string $name = null) : array
+    {
+        return $this->context->getAnnotations($this->path, $name);
+    }
+
+    /**
      * Get a child node
      *
      * @since 1.0.0
@@ -513,6 +540,18 @@ class JsonBrowser implements \IteratorAggregate
     public function nodeExists() : bool
     {
         return $this->context->valueExists($this->path);
+    }
+
+    /**
+     * Set a node annotation
+     *
+     * @param string $name  Annotation name
+     * @param mixed  $value Annotation value
+     * @param bool   $clear Clear existing annotations with the same name
+     */
+    public function setAnnotation(string $name, $value, bool $clear = false)
+    {
+        $this->context->setAnnotation($this->path, $name, $value, $clear);
     }
 
     /**

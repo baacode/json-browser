@@ -21,6 +21,9 @@ class Context
     /** Decoded JSON document */
     private $document = null;
 
+    /** Annotation document */
+    private $annotations = [];
+
     /** Path to root location in document */
     private $path = [];
 
@@ -48,6 +51,7 @@ class Context
     {
         $subtree = clone $this;
         $subtree->path = array_merge($this->path, $path);
+        $subtree->annotations = &$this->annotations;
         
         return $subtree;
     }
@@ -190,6 +194,51 @@ class Context
             // we're at the root, so set the target to null rather than unsetting it
             $target = null;
         }
+    }
+
+    /**
+     * Get annotations for a given path
+     *
+     * @since 2.1.0
+     *
+     * @param array  $path Array of path elements
+     * @param string $name Annotation name
+     * @return array Array of annotation values
+     */
+    public function getAnnotations(array $path, string $name = null) : array
+    {
+        $path = Util::encodePointer(array_merge($this->path, $path));
+        if (!array_key_exists($path, $this->annotations)) {
+            return [];
+        }
+
+        if (!is_null($name)) {
+            return $this->annotations[$path][$name] ?? [];
+        } else {
+            return $this->annotations[$path];
+        }
+    }
+
+    /**
+     * Set an annotation for a given path
+     *
+     * @since 2.1.0
+     *
+     * @param array  $path  Array of path elements
+     * @param string $name  Annotation name
+     * @param mixed  $value Annotation value
+     * @param bool   $clear Clear existing annotations with the same name
+     */
+    public function setAnnotation(array $path, string $name, $value, bool $clear = false)
+    {
+        $path = Util::encodePointer(array_merge($this->path, $path));
+        if (!array_key_exists($path, $this->annotations)) {
+            $this->annotations[$path] = [];
+        }
+        if ($clear || !array_key_exists($name, $this->annotations[$path])) {
+            $this->annotations[$path][$name] = [];
+        }
+        $this->annotations[$path][$name][] = $value;
     }
 
     /**

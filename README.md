@@ -94,6 +94,19 @@ $json = $node->getJSON();
 // get a node as the root of a subtree
 $root = $node->asRoot();
 
+// set named annotation on a node
+$node->setAnnotation('myAnnotation', 'myValue'); // append to existing values
+$node->setAnnotation('myOtherAnnotation', 'myOtherValue', true); // overwrite previous values
+
+// get latest value for a named annotation, or null if not set
+$annotation = $node->getAnnotation('myAnnotation');
+
+// get array of values for a named annotation, empty array if not set
+$annotations = $node->getAnnotations('myAnnotation');
+
+// get an associative array of all annotations on a node, empty array if none set
+$annotations = $node->getAnnotations();
+
 ```
 
 Configuration Options
