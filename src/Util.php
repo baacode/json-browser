@@ -69,9 +69,11 @@ abstract class Util
             return true;
         }
 
-        // recursive object comparison
+        // recursive object / array comparison
         if (is_object($valueOne) && is_object($valueTwo)) {
             return self::compareObjects($valueOne, $valueTwo);
+        } elseif (is_array($valueOne) && is_array($valueTwo)) {
+            return self::compareArrays($valueOne, $valueTwo);
         }
 
         // compare numeric types loosely, but don't accept numeric strings
@@ -104,6 +106,34 @@ abstract class Util
                 return false;
             }
         }
+        return true;
+    }
+
+    /**
+     * Recursively compare two arrays for equality
+     *
+     * @since 2.1.1
+     *
+     * @param array $valueOne
+     * @param array $valueTwo
+     * @return bool
+     */
+    private static function compareArrays(array $valueOne, array $valueTwo) : bool
+    {
+        if (count($valueOne) != count($valueTwo)) {
+            return false;
+        }
+
+        if (array_keys($valueOne) != array_keys($valueTwo)) {
+            return false;
+        }
+
+        foreach ($valueOne as $key => $value) {
+            if (!self::compare($value, $valueTwo[$key])) {
+                return false;
+            }
+        }
+
         return true;
     }
 }
