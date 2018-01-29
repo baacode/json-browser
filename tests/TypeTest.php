@@ -74,4 +74,12 @@ class TypeTest extends \PHPUnit\Framework\TestCase
         $browser->loadJSON('1.000000001');
         $this->assertTrue($browser->isNotType(JsonBrowser::TYPE_INTEGER));
     }
+
+    public function testOnlyOne()
+    {
+        $browser = new JsonBrowser();
+        $browser->loadJSON('1');
+        $this->assertSame(JsonBrowser::TYPE_INTEGER, $browser->getType(true));
+        $this->assertSame(JsonBrowser::TYPE_INTEGER|JsonBrowser::TYPE_NUMBER, $browser->getType(false));
+    }
 }

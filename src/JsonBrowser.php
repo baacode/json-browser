@@ -369,9 +369,10 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.0.0
      *
+     * @param bool $onlyOne Get only the most specific type, rather than all applicable
      * @return int Bitmask list of applicable types (See JsonBrowser::TYPE_* constants)
      */
-    public function getType() : int
+    public function getType(bool $onlyOne = false) : int
     {
         $documentValue = $this->getValue();
 
@@ -390,7 +391,11 @@ class JsonBrowser implements \IteratorAggregate
         if (is_numeric($documentValue)) {
             $type = self::TYPE_NUMBER;
             if (is_int($documentValue) || $documentValue == floor($documentValue)) {
-                $type |= self::TYPE_INTEGER;
+                if ($onlyOne) {
+                    $type = self::TYPE_INTEGER;
+                } else {
+                    $type |= self::TYPE_INTEGER;
+                }
             }
             return $type;
         }
