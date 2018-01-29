@@ -124,10 +124,6 @@ abstract class Util
             return false;
         }
 
-        if (array_keys($valueOne) != array_keys($valueTwo)) {
-            return false;
-        }
-
         foreach ($valueOne as $key => $value) {
             if (!self::compare($value, $valueTwo[$key])) {
                 return false;
