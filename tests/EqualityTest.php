@@ -24,6 +24,8 @@ class EqualityTest extends \PHPUnit\Framework\TestCase
             ['{"propertyOne": 5, "propertyTwo": "6"}', 5, false],
             ['[{"propertyOne": "valueOne"}]', [(object)["propertyOne" => "valueOne"]], true],
             ['[{"propertyOne": "valueOne"}]', [(object)["propertyOne" => "valueTwo"]], false],
+            ['[1,2,3]', [1,2], false],
+            ['[1,2]', [1,2, 3], false],
             ['5', 5, true],
             ['5', 5.000, true],
             ['5.000', 5, true],
