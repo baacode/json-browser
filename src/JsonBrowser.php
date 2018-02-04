@@ -275,7 +275,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getKey()
     {
-        return count($this->path) ? end($this->path) : null;
+        return $this->isRoot() ? null : end($this->path);
     }
 
     /**
@@ -308,7 +308,7 @@ class JsonBrowser implements \IteratorAggregate
     public function getParent()
     {
         // the root node has no parent, so return null
-        if (!count($this->path)) {
+        if ($this->isRoot()) {
             return null;
         }
         
@@ -486,6 +486,18 @@ class JsonBrowser implements \IteratorAggregate
     }
 
     /**
+     * Test whether the current node is the document root
+     *
+     * @since 2.3.0
+     *
+     * @return bool Whether this node is the document root
+     */
+    public function isRoot() : bool
+    {
+        return !count($this->path);
+    }
+
+    /**
      * Test whether the document value is of a given type
      *
      * @since 1.3.0
@@ -599,7 +611,7 @@ class JsonBrowser implements \IteratorAggregate
     public function siblingExists($key) : bool
     {
         // root nodes have no siblings
-        if (!count($this->path)) {
+        if ($this->isRoot()) {
             return false;
         }
 

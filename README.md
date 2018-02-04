@@ -56,6 +56,9 @@ $browser->deleteValueAt('#/childName/grandchildName/4')
 // get root node
 $root = $node->getRoot();
 
+// test whether a node is the root
+$nodeIsRoot = $node->isRoot();
+
 // get parent node
 $parent = $node->getParent();
 
