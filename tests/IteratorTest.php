@@ -9,7 +9,7 @@ use JsonBrowser\Exception;
  * Test iterator
  *
  * @package baacode/json-browser
- * @copyright (c) 2017-2018-2018 Erayd LTD
+ * @copyright (c) 2017-2018 Erayd LTD
  * @author Steve Gilberd <steve@erayd.net>
  * @license ISC
  */
