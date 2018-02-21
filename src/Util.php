@@ -178,4 +178,125 @@ abstract class Util
 
         throw new Exception(JsonBrowser::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($value)); // @codeCoverageIgnore
     }
+
+    /**
+     * Cast a value to conform to the given type mask, losing as little fidelity as possible
+     *
+     * @since 2.4.0
+     *
+     * @param int $asType The type mask to cast to
+     * @param mixed $value The value to cast
+     * @return mixed The cast value
+     */
+    public static function cast(int $asType, $value)
+    {
+        // get the value type
+        $type = self::typeMask($value);
+
+        // check whether value is already one of the desired types
+        if ($type & $asType) {
+            return $value;
+        }
+
+        // cast objects & arrays
+        // -> directly to an object or associative array
+        // -> to a json-encoded string
+        // -> to an integer count of the members
+        // -> to a boolean indicating whether any members are present
+        if ($type & (JsonBrowser::TYPE_OBJECT | JsonBrowser::TYPE_ARRAY)) {
+            if ($asType & JsonBrowser::TYPE_OBJECT) {
+                return (object) $value;
+            } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
+                return (array) $value;
+            } elseif ($asType & JsonBrowser::TYPE_STRING) {
+                return json_encode($value, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
+            } elseif ($asType & (JsonBrowser::TYPE_NUMBER | JsonBrowser::TYPE_INTEGER)) {
+                return count((array)$value);
+            } elseif ($asType & JsonBrowser::TYPE_BOOLEAN) {
+                return (bool) count((array)$value);
+            }
+        }
+
+        // cast strings
+        // -> to an array of unicode characters
+        // -> to an array of unicode characters, cast as an object (stdClass)
+        // -> to an integer count of [unicode] characters in the string
+        // -> to a boolean indicating whether the string length is greater than zero
+        if ($type & JsonBrowser::TYPE_STRING) {
+            if ($asType & JsonBrowser::TYPE_ARRAY) {
+                return preg_split('//u', $value, null, \PREG_SPLIT_NO_EMPTY);
+            } elseif ($asType & JsonBrowser::TYPE_OBJECT) {
+                return (object) preg_split('//u', $value, null, \PREG_SPLIT_NO_EMPTY);
+            } elseif ($asType & (JsonBrowser::TYPE_NUMBER | JsonBrowser::TYPE_INTEGER)) {
+                return mb_strlen($value);
+            } elseif ($asType & JsonBrowser::TYPE_BOOLEAN) {
+                return (bool) strlen($value);
+            }
+        }
+
+        // cast numbers
+        // -> to an integer (or float if larger than PHP_INT_MAX), with the fractional component discarded
+        // -> to a string representation of the number, in base-10
+        // -> to the only member [0] of an array
+        // -> to the 'value' property of an stdClass object
+        // -> to a boolean indicating whether the number is non-zero
+        if ($type & JsonBrowser::TYPE_NUMBER) {
+            if ($asType & JsonBrowser::TYPE_INTEGER) {
+                return $value > \PHP_INT_MAX ? floor($value) : (int) floor($value);
+            } elseif ($asType & JsonBrowser::TYPE_STRING) {
+                return json_encode($value);
+            } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
+                return [$value];
+            } elseif ($asType & JsonBrowser::TYPE_OBJECT) {
+                return (object) ['value' => $value];
+            } elseif ($asType & JsonBrowser::TYPE_BOOLEAN) {
+                return $value != 0;
+            }
+        }
+
+        // cast booleans
+        // -> to an integer
+        // -> to a true / false string
+        // -> to the only member [0] of an array
+        // -> to the 'value' property of an stdClass object
+        if ($type & JsonBrowser::TYPE_BOOLEAN) {
+            if ($asType & (JsonBrowser::TYPE_NUMBER | JsonBrowser::TYPE_INTEGER)) {
+                return (int)$value;
+            } elseif ($asType & JsonBrowser::TYPE_STRING) {
+                return json_encode($value);
+            } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
+                return [$value];
+            } elseif ($asType & JsonBrowser::TYPE_OBJECT) {
+                return (object) ['value' => $value];
+            }
+        }
+
+        // cast nulls
+        // -> to a boolean false
+        // -> to an integer zero
+        // -> to an empty string
+        // -> to an empty array
+        // -> to an empty stdClass object
+        if ($type & JsonBrowser::TYPE_NULL) {
+            if ($asType & JsonBrowser::TYPE_BOOLEAN) {
+                return false;
+            } elseif ($asType & (JsonBrowser::TYPE_NUMBER | JsonBrowser::TYPE_INTEGER)) {
+                return 0;
+            } elseif ($asType & JsonBrowser::TYPE_STRING) {
+                return '';
+            } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
+                return [];
+            } elseif ($asType & JsonBrowser::TYPE_OBJECT) {
+                return new \stdClass();
+            }
+        }
+
+        // cast to null as a last resort, because it's a lossy constant
+        if ($asType & JsonBrowser::TYPE_NULL) {
+            return null;
+        }
+
+        // anything left over is an unknown type - should never be reached unless the user passes an invalid type
+        throw new Exception(JsonBrowser::ERR_UNKNOWN_TYPE, 'Unknown value or cast type');
+    }
 }

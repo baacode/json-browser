@@ -25,6 +25,9 @@ class JsonBrowser implements \IteratorAggregate
     /** Treat the document definition passed to the constructor as JSON, and decode it */
     const OPT_DECODE = 4;
 
+    /** Cast values with a non-matching type requirement, instead of throwing an exception */
+    const OPT_CAST = 8;
+
     /** Default config options [none] */
     const OPT_DEFAULT = 0;
 
@@ -48,6 +51,9 @@ class JsonBrowser implements \IteratorAggregate
 
     /** Unknown target */
     const ERR_UNKNOWN_TARGET = 7;
+
+    /** The value type does not match the provided type mask */
+    const ERR_INVALID_TYPE = 8;
 
     /** NULL type */
     const TYPE_NULL = 1;
@@ -382,14 +388,25 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.0.0
      *
+     * @param int    $asType Ensure that the returned value matches one of the specified types
+     * @param bool   $cast   Whether to cast the value if necessary to ensure the correct type
      * @return mixed Node value
      */
-    public function getValue()
+    public function getValue(int $asType = 0, $cast = null)
     {
         $value = $this->context->getValue($this->path, $exists);
         
         if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
             throw new Exception(self::ERR_UNKNOWN_SELF, 'Current node is unknown: %s', $this->getPath());
+        }
+
+        // ensure value is of the specified type
+        if ($asType) {
+            if ($cast || (is_null($cast) && ($this->options & self::OPT_CAST))) {
+                return Util::cast($asType, $value);
+            } elseif (!($asType & Util::typeMask($value))) {
+                throw new Exception(self::ERR_INVALID_TYPE, 'Value is not of the required type');
+            }
         }
 
         return $value;
@@ -400,15 +417,26 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.1.0
      *
-     * @param string $path JSON pointer to the requested node
+     * @param string $path   JSON pointer to the requested node
+     * @param int    $asType Ensure that the returned value matches one of the specified types
+     * @param bool   $cast   Whether to cast the value if necessary to ensure the correct type
      * @return mixed Value at the given path
      */
-    public function getValueAt(string $path)
+    public function getValueAt(string $path, int $asType = 0, $cast = null)
     {
         $value = $this->context->getValue(Util::decodePointer($path), $exists);
         
         if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
             throw new Exception(self::ERR_UNKNOWN_TARGET, 'Target node is unknown: %s', $path);
+        }
+
+        // ensure value is of the specified type
+        if ($asType) {
+            if ($cast || (is_null($cast) && ($this->options & self::OPT_CAST))) {
+                return Util::cast($asType, $value);
+            } elseif (!($asType & Util::typeMask($value))) {
+                throw new Exception(self::ERR_INVALID_TYPE, 'Value is not of the required type');
+            }
         }
 
         return $value;
