@@ -90,7 +90,7 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.0.0
      *
-     * @param int $options Configuration options (bitmask)
+     * @param int  $options   Configuration options (bitmask)
      * @param mixed $document Reference to the default document
      */
     public function __construct(int $options = self::OPT_DEFAULT, &$document = null)
@@ -126,7 +126,7 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.5.0
      *
-     * @param mixed $key Index key
+     * @param mixed $key   Index key
      * @param mixed $value Value data to set
      */
     public function __set($key, $value)
@@ -192,8 +192,8 @@ class JsonBrowser implements \IteratorAggregate
      *
      * @since 1.5.0
      *
-     * @param string $path JSON pointer to the node that should be deleted
-     * @param bool $deleteEmpty Whether to delete empty containers
+     * @param string $path        JSON pointer to the node that should be deleted
+     * @param bool   $deleteEmpty Whether to delete empty containers
      */
     public function deleteValueAt(string $path, bool $deleteEmpty = false)
     {
@@ -497,7 +497,7 @@ class JsonBrowser implements \IteratorAggregate
      * @since 1.3.0
      *
      * @param int $types Types to test for
-     * @param int $all Whether to require all types, or just one
+     * @param int $all   Whether to require all types, or just one
      * @return bool Whether the type matches
      */
     public function isType(int $types, bool $all = false) : bool

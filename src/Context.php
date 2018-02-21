@@ -75,8 +75,8 @@ class Context
      *
      * @since 1.5.0
      *
-     * @param array $path Array of path elements
-     * @param bool Reference - set to true if the value exists, false otherwise
+     * @param array $path   Array of path elements
+     * @param bool  $exists Reference - set to true if the value exists, false otherwise
      * @return mixed|null Value data, or null if value does not exist
      */
     public function getValue(array $path, bool &$exists = null)
@@ -106,7 +106,7 @@ class Context
      *
      * @since 1.5.0
      *
-     * @param array $path Array of path elements
+     * @param array $path  Array of path elements
      * @param mixed $value Value data to set
      * @param bool  $padSparseArray Whether to left-pad sparse arrays with null values
      */

@@ -138,8 +138,8 @@ abstract class Util
      *
      * @since 2.4.0 (was JsonBrowser::getType() in previous versions)
      *
-     * @param mixed $value Value to test
-     * @param bool $onlyOne Whether to set only one type (the most specific)
+     * @param mixed $value   Value to test
+     * @param bool  $onlyOne Whether to set only one type (the most specific)
      * @return int Type mask
      */
     public static function typeMask($value, bool $onlyOne = false) : int
@@ -184,7 +184,7 @@ abstract class Util
      *
      * @since 2.4.0
      *
-     * @param int $asType The type mask to cast to
+     * @param int $asType  The type mask to cast to
      * @param mixed $value The value to cast
      * @return mixed The cast value
      */

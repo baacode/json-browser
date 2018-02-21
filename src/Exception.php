@@ -19,9 +19,9 @@ class Exception extends \Exception
      *
      * @since 1.0.0
      *
-     * @param int $code Error code
+     * @param int    $code    Error code
      * @param string $message Error message
-     * @param array $params Error params
+     * @param array  $params  Error params
      */
     public function __construct(int $code, string $message, ...$params)
     {
@@ -46,10 +46,10 @@ class Exception extends \Exception
      *
      * @since 1.0.0
      *
-     * @param callable $target Function to wrap and execute
-     * @param int $code Error code
-     * @param string $message Error message
-     * @param array $params Error params
+     * @param callable $target  Function to wrap and execute
+     * @param int      $code    Error code
+     * @param string   $message Error message
+     * @param array    $params  Error params
      */
     public static function wrap(callable $target, int $code, string $message, ...$params)
     {
