@@ -374,41 +374,7 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getType(bool $onlyOne = false) : int
     {
-        $documentValue = $this->getValue();
-
-        if (is_null($documentValue)) {
-            return self::TYPE_NULL;
-        }
-
-        if (is_bool($documentValue)) {
-            return self::TYPE_BOOLEAN;
-        }
-
-        if (is_string($documentValue)) {
-            return self::TYPE_STRING;
-        }
-
-        if (is_numeric($documentValue)) {
-            $type = self::TYPE_NUMBER;
-            if (is_int($documentValue) || $documentValue == floor($documentValue)) {
-                if ($onlyOne) {
-                    $type = self::TYPE_INTEGER;
-                } else {
-                    $type |= self::TYPE_INTEGER;
-                }
-            }
-            return $type;
-        }
-
-        if (is_array($documentValue)) {
-            return self::TYPE_ARRAY;
-        }
-
-        if (is_object($documentValue)) {
-            return self::TYPE_OBJECT;
-        }
-
-        throw new Exception(self::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($documentValue)); // @codeCoverageIgnore
+        return Util::typeMask($this->getValue(), $onlyOne);
     }
 
     /**

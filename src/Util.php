@@ -132,4 +132,50 @@ abstract class Util
 
         return true;
     }
+
+    /**
+     * Get the type mask for a given value
+     *
+     * @since 2.4.0 (was JsonBrowser::getType() in previous versions)
+     *
+     * @param mixed $value Value to test
+     * @param bool $onlyOne Whether to set only one type (the most specific)
+     * @return int Type mask
+     */
+    public static function typeMask($value, bool $onlyOne = false) : int
+    {
+        if (is_null($value)) {
+            return JsonBrowser::TYPE_NULL;
+        }
+
+        if (is_bool($value)) {
+            return JsonBrowser::TYPE_BOOLEAN;
+        }
+
+        if (is_string($value)) {
+            return JsonBrowser::TYPE_STRING;
+        }
+
+        if (is_numeric($value)) {
+            $type = JsonBrowser::TYPE_NUMBER;
+            if (is_int($value) || $value == floor($value)) {
+                if ($onlyOne) {
+                    $type = JsonBrowser::TYPE_INTEGER;
+                } else {
+                    $type |= JsonBrowser::TYPE_INTEGER;
+                }
+            }
+            return $type;
+        }
+
+        if (is_array($value)) {
+            return JsonBrowser::TYPE_ARRAY;
+        }
+
+        if (is_object($value)) {
+            return JsonBrowser::TYPE_OBJECT;
+        }
+
+        throw new Exception(JsonBrowser::ERR_UNKNOWN_TYPE, 'Unknown type: %s', gettype($value)); // @codeCoverageIgnore
+    }
 }
