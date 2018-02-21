@@ -141,4 +141,5 @@ Requirements
 
  - PHP >= 7.0
  - PHP's native JSON extension
+ - PHP's native mbstring extension
  - seld/jsonlint >= 1.0
