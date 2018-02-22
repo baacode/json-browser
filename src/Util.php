@@ -296,6 +296,11 @@ abstract class Util
             return null;
         }
 
+        // cannot cast to undefined
+        if ($asType & JsonBrowser::TYPE_UNDEFINED) {
+            throw new Exception(JsonBrowser::ERR_UNDEFINED_CAST, 'Cannot cast to undefined');
+        }
+
         // anything left over is an unknown type - should never be reached unless the user passes an invalid type
         throw new Exception(JsonBrowser::ERR_UNKNOWN_TYPE, 'Unknown value or cast type');
     }

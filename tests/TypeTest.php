@@ -82,4 +82,23 @@ class TypeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(JsonBrowser::TYPE_INTEGER, $browser->getType(true));
         $this->assertSame(JsonBrowser::TYPE_INTEGER|JsonBrowser::TYPE_NUMBER, $browser->getType(false));
     }
+
+    public function testUndefined()
+    {
+        $browser = new JsonBrowser();
+        $browser->loadJSON('{"propertyOne": "valueOne"}');
+        $propertyOne = $browser->getChild('propertyOne');
+        $propertyTwo = $browser->getChild('propertyTwo');
+
+        $this->assertSame(JsonBrowser::TYPE_STRING, $propertyOne->getType());
+
+        $this->assertSame(
+            JsonBrowser::TYPE_NULL | JsonBrowser::TYPE_UNDEFINED,
+            $propertyTwo->getType()
+        );
+
+        $this->assertSame(JsonBrowser::TYPE_UNDEFINED, $propertyTwo->getType(true));
+
+        $this->assertSame(0, $propertyTwo->getType(true) & JsonBrowser::TYPE_ALL);
+    }
 }

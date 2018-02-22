@@ -119,6 +119,7 @@ class CastTest extends \PHPUnit\Framework\TestCase
     {
         $browser = new JsonBrowser(JsonBrowser::OPT_DECODE | JsonBrowser::OPT_CAST, $json);
 
+        // check that cast result is as expected
         if (is_object($finalValue)) {
             $this->assertSame(
                 get_object_vars($finalValue),
@@ -128,10 +129,22 @@ class CastTest extends \PHPUnit\Framework\TestCase
             $this->assertSame($finalValue, $browser->getValue($asType));
         }
 
+        // check that casting with TYPE_ALL doesn't change anything
+        $this->assertSame($browser->getValue(), $browser->getValue(JsonBrowser::TYPE_ALL));
+
+        // check that assertion without casting works
         if (!$alreadyValid) {
             $this->expectException(Exception::class);
             $browser->getValue($asType, false);
         }
+    }
+
+    public function testPassthru()
+    {
+        $json = '5';
+        $browser = new JsonBrowser(JsonBrowser::OPT_DECODE, $json);
+
+        $this->assertSame(5, $browser->getValue(JsonBrowser::TYPE_INTEGER));
     }
 
     public function testGetValueAt()
@@ -152,5 +165,16 @@ class CastTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(Exception::class);
         $browser->getValue(1 << 31); // there is no valid type associated with this bit
+    }
+
+    public function testUndefinedType()
+    {
+        $json = 'null';
+        $browser = new JsonBrowser(JsonBrowser::OPT_DECODE | JsonBrowser::OPT_CAST, $json);
+
+        $this->assertSame(null, $browser->getChild('propertyOne')->getValue(JsonBrowser::TYPE_UNDEFINED));
+
+        $this->expectException(Exception::class);
+        $browser->getValue(JsonBrowser::TYPE_UNDEFINED);
     }
 }

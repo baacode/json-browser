@@ -55,6 +55,9 @@ class JsonBrowser implements \IteratorAggregate
     /** The value type does not match the provided type mask */
     const ERR_INVALID_TYPE = 8;
 
+    /** Cannot cast to undefined */
+    const ERR_UNDEFINED_CAST = 9;
+
     /** NULL type */
     const TYPE_NULL = 1;
 
@@ -76,6 +79,12 @@ class JsonBrowser implements \IteratorAggregate
     /** Object type */
     const TYPE_OBJECT = 64;
 
+    /** Undefined type */
+    const TYPE_UNDEFINED = 128;
+
+    /** All defined types */
+    const TYPE_ALL = ~0 & ~self::TYPE_UNDEFINED;
+
     /** Configuration options */
     private $options = 0;
 
@@ -84,6 +93,9 @@ class JsonBrowser implements \IteratorAggregate
 
     /** Node path */
     private $path = [];
+
+    /** Whether the node exists during the current operation */
+    private $currentlyExists = null;
 
     /**
      * Create a new instance
@@ -148,6 +160,29 @@ class JsonBrowser implements \IteratorAggregate
         $root->path = [];
 
         return $root;
+    }
+
+    /**
+     * Ensure that a value is of a given type
+     *
+     * @since 2.4.0
+     *
+     * @param int   $asType Required type mask
+     * @param mixed $value  Value to check
+     * @param bool  $cast   Whether to cast the value to a valid type
+     * @return mixed The value, correctly typed
+     */
+    private function assertType(int $asType, $value, bool $cast = null)
+    {
+        if (!$this->currentlyExists && ($asType & self::TYPE_UNDEFINED)) {
+            return $value;
+        } elseif ($cast || (is_null($cast) && ($this->options & self::OPT_CAST))) {
+            return Util::cast($asType, $value);
+        } elseif (!($asType & Util::typeMask($value))) {
+            throw new Exception(self::ERR_INVALID_TYPE, 'Value is not of the required type');
+        }
+
+        return $value;
     }
 
     /**
@@ -369,7 +404,6 @@ class JsonBrowser implements \IteratorAggregate
         return $sibling;
     }
 
-
     /**
      * Get the document value type
      *
@@ -380,7 +414,16 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getType(bool $onlyOne = false) : int
     {
-        return Util::typeMask($this->getValue(), $onlyOne);
+        $type = Util::typeMask($this->getValue(), $onlyOne);
+        if (!$this->currentlyExists) {
+            if ($onlyOne) {
+                $type = self::TYPE_UNDEFINED;
+            } else {
+                $type |= self::TYPE_UNDEFINED;
+            }
+        }
+
+        return $type;
     }
 
     /**
@@ -394,19 +437,15 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getValue(int $asType = 0, $cast = null)
     {
-        $value = $this->context->getValue($this->path, $exists);
+        $value = $this->context->getValue($this->path, $this->currentlyExists);
         
-        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$this->currentlyExists) {
             throw new Exception(self::ERR_UNKNOWN_SELF, 'Current node is unknown: %s', $this->getPath());
         }
 
         // ensure value is of the specified type
         if ($asType) {
-            if ($cast || (is_null($cast) && ($this->options & self::OPT_CAST))) {
-                return Util::cast($asType, $value);
-            } elseif (!($asType & Util::typeMask($value))) {
-                throw new Exception(self::ERR_INVALID_TYPE, 'Value is not of the required type');
-            }
+            return $this->assertType($asType, $value, $cast);
         }
 
         return $value;
@@ -424,19 +463,15 @@ class JsonBrowser implements \IteratorAggregate
      */
     public function getValueAt(string $path, int $asType = 0, $cast = null)
     {
-        $value = $this->context->getValue(Util::decodePointer($path), $exists);
+        $value = $this->context->getValue(Util::decodePointer($path), $this->currentlyExists);
         
-        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$exists) {
+        if (($this->options & self::OPT_NONEXISTENT_EXCEPTIONS) && !$this->currentlyExists) {
             throw new Exception(self::ERR_UNKNOWN_TARGET, 'Target node is unknown: %s', $path);
         }
 
         // ensure value is of the specified type
         if ($asType) {
-            if ($cast || (is_null($cast) && ($this->options & self::OPT_CAST))) {
-                return Util::cast($asType, $value);
-            } elseif (!($asType & Util::typeMask($value))) {
-                throw new Exception(self::ERR_INVALID_TYPE, 'Value is not of the required type');
-            }
+            return $this->assertType($asType, $value, $cast);
         }
 
         return $value;
