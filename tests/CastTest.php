@@ -72,6 +72,7 @@ class CastTest extends \PHPUnit\Framework\TestCase
             [JsonBrowser::TYPE_STRING, false, '5.01', $numberJSON],
             [JsonBrowser::TYPE_NUMBER, true, 5.01, $numberJSON],
             [JsonBrowser::TYPE_INTEGER, false, 5, $numberJSON],
+            [JsonBrowser::TYPE_INTEGER, false, -5, '-5.01'],
             [JsonBrowser::TYPE_BOOLEAN, false, true, $numberJSON],
             [JsonBrowser::TYPE_BOOLEAN, false, false, '0.00'],
             [JsonBrowser::TYPE_NULL, false, null, $numberJSON],

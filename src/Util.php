@@ -242,7 +242,8 @@ abstract class Util
         // -> to a boolean indicating whether the number is non-zero
         if ($type & JsonBrowser::TYPE_NUMBER) {
             if ($asType & JsonBrowser::TYPE_INTEGER) {
-                return $value > \PHP_INT_MAX ? floor($value) : (int) floor($value);
+                $int = $value > 0 ? floor($value) : ceil($value);
+                return abs($int) > \PHP_INT_MAX ? $int : (int) $int;
             } elseif ($asType & JsonBrowser::TYPE_STRING) {
                 return json_encode($value);
             } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
