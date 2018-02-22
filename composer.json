@@ -1,6 +1,6 @@
 {
     "name": "baacode/json-browser",
-    "description": "Helper classes for working with JSON data",
+    "description": "Helper library for working with JSON data",
     "keywords": ["json", "browser", "helper"],
     "homepage": "https://github.com/baacode/json-browser",
     "type": "library",
