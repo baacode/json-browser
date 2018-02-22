@@ -235,15 +235,14 @@ abstract class Util
         }
 
         // cast numbers
-        // -> to an integer (or float if larger than PHP_INT_MAX), with the fractional component discarded
+        // -> to an integer, with the fractional component discarded
         // -> to a string representation of the number, in base-10
         // -> to the only member [0] of an array
         // -> to the 'value' property of an stdClass object
         // -> to a boolean indicating whether the number is non-zero
         if ($type & JsonBrowser::TYPE_NUMBER) {
             if ($asType & JsonBrowser::TYPE_INTEGER) {
-                $int = $value > 0 ? floor($value) : ceil($value);
-                return abs($int) > \PHP_INT_MAX ? $int : (int) $int;
+                return (int) $value;
             } elseif ($asType & JsonBrowser::TYPE_STRING) {
                 return json_encode($value);
             } elseif ($asType & JsonBrowser::TYPE_ARRAY) {
