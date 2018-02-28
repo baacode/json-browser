@@ -14,7 +14,7 @@ use Seld\JsonLint\JsonParser;
  * @author Steve Gilberd <steve@erayd.net>
  * @license ISC
  */
-class JsonBrowser implements \IteratorAggregate
+class JsonBrowser implements \IteratorAggregate, \Countable
 {
     /** Throw exceptions instead of using NULL for nonexistent children & siblings */
     const OPT_NONEXISTENT_EXCEPTIONS = 1;
@@ -208,6 +208,22 @@ class JsonBrowser implements \IteratorAggregate
     public function childExists($key) : bool
     {
         return $this->context->valueExists(array_merge($this->path, [$key]));
+    }
+
+    /**
+     * Count the number of children contained within this node
+     *
+     * @since 2.5.0
+     *
+     * @return int The number of children within this node
+     */
+    public function count() : int
+    {
+        if ($this->isType(self::TYPE_OBJECT | self::TYPE_ARRAY)) {
+            return count($this->getValue(self::TYPE_ARRAY, true));
+        }
+
+        return 0;
     }
 
     /**

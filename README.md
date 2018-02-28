@@ -29,6 +29,10 @@ $childExists = $browser->childExists('childName');
 $child = $browser->getChild('childName');
 $child = $browser->childName; // dynamic __get() alias
 
+// count child nodes
+$numChildren = count($browser);
+$numChildren = $browser->count();
+
 // iterate through child nodes
 foreach ($browser as $childName => $childNode) {
     // $childName is the index key of the child
